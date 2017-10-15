@@ -1,0 +1,79 @@
+<div class="container">
+  <h1>Chỉnh sửa thông tin cá nhân</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <form (ngSubmit)="saveuser()" #userForm="ngForm" ngNativeValidate> -->
+        <form [formGroup]="reactiveForm" (ngSubmit)="edituser(reactiveForm.value)">
+          <div class="col-md-6"> 
+            <!-- username  -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched}">
+              <label for="name">Tên tài khoản</label>
+              <div class="alert" *ngIf="reactiveForm.controls['username'].hasError('required') && reactiveForm.controls['username'].touched">{{ requireAlert }}</div>
+              <input type="text" class="form-control input-lg" placeholder="nhập tên tài khoản" [formControl]="reactiveForm.controls['username']" [(ngModel)]="user.username">
+            </div> 
+            <!-- password -->
+            <div class="form-group">
+              <label for="name">Mật khẩu</label>
+              <!-- <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('required') && reactiveForm.controls['password'].touched">{{ requireAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('minlength') && reactiveForm.controls['password'].touched">{{ minPassAlert }}</div> -->
+              <input type="password" class="form-control input-lg" placeholder="nhập mật khẩu" [formControl]="reactiveForm.controls['password']">
+            </div>
+            <!-- name -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['name'].valid && reactiveForm.controls['name'].touched}" *ngIf=" user.profile">
+              <label for="name">Họ Tên</label>
+              <div class="alert" *ngIf="reactiveForm.controls['name'].hasError('required') && reactiveForm.controls['name'].touched">{{ requireAlert }}</div>
+              <input type="text" class="form-control input-lg" placeholder="nhập tên" [formControl]="reactiveForm.controls['name']" [(ngModel)]="user.profile.name">
+            </div>   
+            <!-- email -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['email'].valid && reactiveForm.controls['email'].touched}" *ngIf=" user.profile">
+              <label for="name">Email</label>
+              <div class="alert" *ngIf="reactiveForm.controls['email'].hasError('required') && reactiveForm.controls['email'].touched">{{ requireAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['email'].hasError('pattern') && reactiveForm.controls['email'].touched">{{ emailAlert }}</div> 
+              <input type="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" class="form-control input-lg" placeholder="nhập email" [formControl]="reactiveForm.controls['email']" [(ngModel)]="user.profile.email">
+            </div>
+            <!-- submit -->
+            <div class="form-group">
+              <button type="submit" class="btn btn-success" [disabled]="!reactiveForm.valid">Lưu thay đổi</button>
+            </div>            
+          </div>
+          <div class="col-md-6">
+            <!-- phone -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['phone'].valid && reactiveForm.controls['phone'].touched}" *ngIf=" user.profile">
+              <label for="name">Số điện thoại</label>
+              <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('required') && reactiveForm.controls['phone'].touched">{{ requireAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('minlength') && reactiveForm.controls['phone'].touched">{{ minPhoneAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('maxlength') && reactiveForm.controls['phone'].touched">{{ maxPhoneAlert }}</div>
+              <input type="tel" pattern="[0-9]*" class="form-control input-lg" placeholder="Nhập số điện thoại" [formControl]="reactiveForm.controls['phone']" [(ngModel)]="user.profile.phone">
+            </div>
+            <!-- age -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['age'].valid && reactiveForm.controls['age'].touched}" *ngIf=" user.profile">
+              <label for="name">Tuổi</label>
+              <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('required') && reactiveForm.controls['age'].touched">{{ requireAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('maxValue') && reactiveForm.controls['age'].touched">{{ maxAgeAlert }}</div>
+              <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('minAge') && reactiveForm.controls['age'].touched">{{ minAgeAlert }}</div>
+              <input type="number" pattern="[0-9]*" class="form-control input-lg" placeholder="nhập tuổi" [formControl]="reactiveForm.controls['age']" [(ngModel)]="user.profile.age">
+            </div>
+            <!-- gender -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['gender'].valid && reactiveForm.controls['gender'].touched}" *ngIf=" user.profile">
+              <label for="name">Giới tính</label>
+              <div class="alert" *ngIf="reactiveForm.controls['gender'].hasError('required') && reactiveForm.controls['gender'].touched">{{ requireAlert }}</div>
+              <select type="text" class="form-control input-lg" [formControl]="reactiveForm.controls['gender']" [(ngModel)]="user.profile.sex">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+            <!-- address -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['address'].valid && reactiveForm.controls['address'].touched}">
+              <label for="name">Địa chỉ <i *ngIf="user.profile">(hiện tại: {{ user.profile.address }})</i></label>
+              <div class="alert" *ngIf="reactiveForm.controls['address'].hasError('required') && reactiveForm.controls['address'].touched">{{ requireAlert }}</div>
+              <input placeholder="search for location" [formControl]="reactiveForm.controls['address']" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control input-lg" #search [formControl]="searchControl">
+            </div>
+            <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom">
+              <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+            </agm-map>            
+          </div> 
+      </form>
+
+    </div>
+  </div>
+</div>

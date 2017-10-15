@@ -1,0 +1,12 @@
+<div class="container">
+  <h4 class="card-title">{{ users | json }}</h4>
+  <h4 class="card-title">{{ errr }}</h4>
+  <div class="row" *ngFor="let user of users">
+    <div class="card card-block">
+      <h4 class="card-title">{{ user.username }}</h4>
+      <p class="card-text">{{ user.password }}</p>
+      <a href="#" class="card-link">Card link</a>
+      <a href="#" class="card-link">Another link</a>
+    </div>
+  </div>
+</div>

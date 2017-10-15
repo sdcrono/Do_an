@@ -1,0 +1,49 @@
+<div class="container">
+  <div class="col-md-8"></div>
+  <div class="col-md-4">
+    <a [routerLink]="['/contracts']" class="btn btn-default">
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>      
+  </div> 
+  <h1>Chi tiết hợp đồng</h1>
+
+          <div class="card" *ngIf="contract.detail">
+            <div class="card-block">
+              <h4 class="card-title">Thông tin công việc</h4>
+              <p class="card-text">Tên người bệnh: {{ contract.patientName }} - {{ contract.patientAge }} tuổi</p>  
+              <p class="card-text">Thời gian: {{ contract.created_at | date: 'dd/MM/yyyy' }} - {{ contract.end_at | date: 'dd/MM/yyyy' }}</p>  
+              <p class="card-text">Thanh toán cho 1 buổi làm việc: {{ contract.payment }}</p>
+              <p class="card-text">Nội dung: {{ contract.detail.jobDescription }}</p>
+              <p class="card-text">Thời điểm:</p>
+           
+              <table class="table">
+                <thead>
+                  <tr>
+                    <td>Thứ</td>
+                    <td>Giờ bắt đầu</td>
+                    <td>Giờ kết thúc</td>                    
+                  </tr>
+                  <tr *ngFor="let workingDate of contract.detail.dates">
+                    <td>{{ workingDate.date }}</td>
+                    <td>{{ workingDate.start_time | date:'shortTime' }}</td>
+                    <td>{{ workingDate.end_time | date:'shortTime' }}</td>
+                    <!-- <th>Hủy</th> -->
+                  </tr>
+                </thead>
+
+              </table>              
+            </div>                
+            <div class="card-block">
+              <h4 class="card-title">Tên người đăng ký: {{ contract.userId.profile.name }}</h4>
+              <h6 class="card-subtitle mb-2 text-muted">email: {{ contract.userId.profile.email }} - sđt: {{ contract.userId.profile.phone }}</h6>
+              <p class="card-text">Địa chỉ: {{ contract.userId.profile.address }}</p>
+            </div>            
+            <div class="card-block">
+              <h4 class="card-title">Tên điều dưỡng: {{ contract.nurseId.profile.name }}</h4>
+              <h6 class="card-subtitle mb-2 text-muted">Giới tính: {{ contract.nurseId.profile.sex }} - email: {{ contract.nurseId.profile.email }} - sđt: {{ contract.nurseId.profile.phone }}</h6>
+              <p class="card-text">Làm việc tại: {{ contract.nurseId.nurseprofile.hospital }}</p>
+              <p class="card-text">Địa chỉ: {{ contract.nurseId.profile.address }}</p>
+            </div>
+          </div> 
+
+</div>

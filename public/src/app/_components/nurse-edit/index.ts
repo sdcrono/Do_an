@@ -1,0 +1,1 @@
+export * from './nurse-edit.component';

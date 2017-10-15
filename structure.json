@@ -1,0 +1,47 @@
+{
+  "user": {
+    "id": "__id",
+    "username": "String",
+    "password": "String",
+    "isNurse": "Boolean",
+    "profile":{},
+    "nurse_profile":{}
+  },
+
+  "profile": {
+    "name": "String",
+	  "email": "String",
+    "phone": "Number",
+    "age": "Number",	
+    "sex": "String",
+    "address": "String",
+    "owner": "__id"
+  },
+
+  "nurse-profile": {
+    "certification": "String",
+    "rate": "Number",
+    "retribution": "Number",
+    "history": "String",
+    "owner": "__id"
+  },
+
+  "service":{
+    "type": "[String]"
+  },
+
+  "request":{
+
+  },
+
+  "feedback":{
+
+  },
+
+  "meta":{
+    "votes": "Number",
+    "favs":  "Number"
+  }
+
+
+}

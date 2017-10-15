@@ -1,0 +1,34 @@
+<div class="container">
+  <h1>Danh sách những người điều dưỡng</h1>
+  <a [routerLink]="['/nurses/add']" class="btn btn-default">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </a>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Tên tài khoản</th>
+        <th>Bệnh viện</th>
+        <th>Tình trạng</th>
+        <th>Chi tiết</th>
+        <th>Chỉnh Sửa</th>
+        <!-- <th>Tạm hủy</th> -->
+        <th>Hủy</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let nurse of nurses">
+        <td>{{ nurse.username }}</td>
+        <td>{{ nurse.nurseprofile.hospital }}</td>
+        <!-- <td>{{ nurse.nurseprofile.status }}</td> -->
+         <td *ngIf="nurse.nurseprofile.status != 'busy' && nurse.nurseprofile.status != 'free'">{{ nurse.nurseprofile.status }}</td> 
+        <td *ngIf="nurse.nurseprofile.status == 'busy'"><button class="btn btn-danger" type="button" (click)="changeStatus(nurse._id, nurse.nurseprofile.status)">{{ nurse.nurseprofile.status }}</button></td>
+        <td *ngIf="nurse.nurseprofile.status == 'free'"><button  class="btn btn-success" type="button" (click)="changeStatus(nurse._id, nurse.nurseprofile.status)">{{ nurse.nurseprofile.status }}</button></td>        
+        <td><a [routerLink]="['/nurses/', nurse._id]">Xem chi tiết</a></td>
+        <td><a [routerLink]="['/nurses/', nurse._id, 'edit']"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a></td>
+        <!-- <td><a><span class="glyphicon glyphicon-remove" aria-hidden="true" (click)="invalid(nurse._id)"></span></a></td> -->
+        <td><button class="btn btn-danger" type="button" (click)="deactive(nurse._id)">DELETE</button></td>        
+        <!-- <td><a [routerLink]="['/nurses/', nurse._id]"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></a></td> -->
+      </tr>
+    </tbody>
+  </table>
+</div>
