@@ -1,0 +1,49 @@
+page-contract-detail {
+  .content-wrapper {
+    background: #F0F0F0;
+    div {
+      .contract-header {
+        display: flex;
+        flex-direction: row;
+        background-color: #fff;
+        margin-top: 8px;
+        width: 100%;
+        height: 50px;
+        .img {
+          height: 100%;
+          width: 50px;
+        }
+        .info {
+          display: flex;
+          flex-direction: row;
+          justify-content: center;
+          align-items: center;
+          margin: 1rem;
+          font-size: 2rem;
+          .person {
+            margin: 0 2rem 0;
+          }
+        }
+      }
+      .contract-body {
+        .blank {
+          background-color: #000;
+          width: 100%;
+          height: 50px;
+        }
+      }
+      .contract-workingdates {
+        .type-of-day,
+        .number-of-day {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+        }
+        .center {
+            display: flex;
+            justify-content: center;
+          }
+      }
+    }
+  }
+}

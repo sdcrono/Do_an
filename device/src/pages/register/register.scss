@@ -1,0 +1,71 @@
+page-register {
+  .background {
+    // background-image: url('https://i.pinimg.com/736x/44/cb/4c/44cb4c3d920dfddd39ef9497852e3631--mobile-ui-design-design-ui.jpg');
+    // background-image: url('../../assets/image/angularjs-ionic-framework.jpg');
+    // background-image: linear-gradient(120deg, #39CCCC 0%, #70e1f5 100%);
+    // background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
+    background-image: white;
+    background-size: cover;
+    background-position: right 10px top;
+  }
+  .scroll-content {
+    align-content: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+  }
+  ion-slides {
+    ion-slide {
+      ion-card.card {
+        box-shadow: none;
+        background: rgba(0, 0, 0, 0.5);
+        border-radius: 5px;
+      }
+      a,
+      p,
+      ion-card-header.card-header {
+        color: #fff;
+      }
+      .card-md p {
+        color: #ea6153;
+      }
+      .list>.item-block:first-child {
+        border: medium none;
+      }
+      .item {
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.5);
+        border: medium none;
+        .text-input,
+        .select-text {
+          color: #fff;
+        }
+        input::-moz-placeholder {
+          color: #fff;
+        }
+        input:-moz-placeholder {
+          color: #fff;
+        }
+        *:-moz-placeholder {
+          color: #fff;
+        }
+        *:-ms-input-placeholder {
+          color: #fff;
+        }
+        *::-webkit-input-placeholder {
+          color: #fff;
+        }
+      }
+      .icon {
+        padding-right: 10px;
+      }
+      .bottom {
+        bottom: 0;
+      }
+      .input-cover {
+        position: static;
+      }
+    }
+  }
+}

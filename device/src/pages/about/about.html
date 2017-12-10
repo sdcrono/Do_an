@@ -1,0 +1,115 @@
+<ion-header>
+  <ion-navbar color="mcolor">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      About
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-list no-lines>
+
+    <form [formGroup]="formProfile">
+      <ion-list-header >
+          <ion-label class="center">USER ACCOUNT</ion-label>        
+      </ion-list-header>
+      <ion-item>
+        <ion-label floating>Your name</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.name.valid && (formProfile.controls.name.dirty|| submitAttempt)" formControlName="name"
+          type="text" [(ngModel)]="user && user.profile.name"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.name.valid  && (formProfile.controls.name.dirty || submitAttempt)">
+        <p>Please enter a name.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Email</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.email.valid && (formProfile.controls.email.dirty|| submitAttempt)" formControlName="email"
+          type="text" [(ngModel)]="user && user.profile.email"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.email.valid  && (formProfile.controls.email.dirty || submitAttempt)">
+        <p>Please enter a valid email.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Username</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.username.valid && (formProfile.controls.username.dirty|| submitAttempt)"
+          formControlName="username" type="text" [(ngModel)]="user && user.username"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.username.valid  && (formProfile.controls.username.dirty || submitAttempt)">
+        <p>Please enter a valid username.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Password</ion-label>
+        <ion-input formControlName="password" type="password"></ion-input>
+      </ion-item>
+      <ion-list-header>
+          <ion-label class="center">PERSONAL INFORMATION</ion-label>          
+      </ion-list-header>
+      <ion-item>
+        <ion-label floating>Phone</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.phone.valid && (formProfile.controls.phone.dirty|| submitAttempt)" formControlName="phone"
+          type="phone" [(ngModel)]="user && user.profile.phone"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.phone.valid  && (formProfile.controls.phone.dirty || submitAttempt)">
+        <p>Please enter a valid phone (11 numbers).</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Age</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.age.valid && (formProfile.controls.age.dirty|| submitAttempt)" formControlName="age"
+          type="number" [(ngModel)]="user && user.profile.age"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.age.valid  && (formProfile.controls.age.dirty || submitAttempt)">
+        <p>Please enter a valid age.</p>
+      </ion-item>
+
+      <ion-item>
+        <ion-label floating>Gender</ion-label>
+        <ion-select [class.invalid]="!formProfile.controls.gender.valid && (formProfile.controls.gender.dirty|| submitAttempt)" formControlName="gender"
+          [(ngModel)]="user && user.profile.sex">
+          <ion-option value="Nam">Male</ion-option>
+          <ion-option value="Nữ">Female</ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-list-header>
+        <ion-label class="center">LOCATION</ion-label>        
+      </ion-list-header>
+      <ion-item>
+        <ion-label floating>Address</ion-label>
+        <ion-input [class.invalid]="!formProfile.controls.address.valid && (formProfile.controls.address.dirty|| submitAttempt)"
+          autocorrect="off" autocapitalize="off" spellcheck="off" type="text" formControlName="address" #search id="search"
+          [(ngModel)]="user && user.profile.address"></ion-input>
+      </ion-item>
+      <ion-item *ngIf="!formProfile.controls.address.valid  && (formProfile.controls.address.dirty || submitAttempt)">
+        <p>Please enter a valid address.</p>
+      </ion-item>
+      <!-- <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom">
+        <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+      </agm-map>    -->
+    </form>
+
+  </ion-list>
+
+  <ion-list *ngIf="busyDates.length > 0">
+    <ion-list-header>
+      <ion-label class="center">SCHEDULE</ion-label>
+    </ion-list-header>
+    <ion-list-header class="type-of-day">
+      <ion-label class="center">Date</ion-label>
+      <ion-label class="center">From</ion-label>
+      <ion-label class="center">To</ion-label>
+    </ion-list-header>
+    <ion-list-header class="number-of-day" *ngFor="let busyDate of busyDates">
+        <ion-label class="center">{{ busyDate.date }}</ion-label>
+      <ion-label class="center">{{ busyDate.start_time | date:'shortTime' }}</ion-label>
+      <ion-label class="center">{{ busyDate.end_time | date:'shortTime' }}</ion-label>
+    </ion-list-header>
+    </ion-list>
+  <p *ngIf="submitAttempt" style="color: #ea6153;">Please fill out all details accurately.</p>
+  <button ion-button full color="primary" (click)="save(formProfile.value)">Save!</button>
+</ion-content>

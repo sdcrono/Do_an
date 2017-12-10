@@ -1,0 +1,223 @@
+<!--
+  Generated template for the MenuPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-menu [content]="content">
+  <ion-header>
+    <div class="header-wrapper">
+      <ion-avatar class="avatar" item-start *ngIf="currentUserInfo && currentUserInfo.profile.sex==='Nữ'">
+        <img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/91525/AmeliaBR-bw.jpg">
+      </ion-avatar>
+      <ion-avatar class="avatar" item-start *ngIf="currentUserInfo && currentUserInfo.profile.sex==='Nam'">
+          <img src="https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg">
+        </ion-avatar>
+      <ion-label class="label" *ngIf="currentUserInfo">
+        <span class="title">{{ currentUserInfo.username }}</span>
+        <span>{{ currentUserInfo.profile.email }}</span>
+      </ion-label>
+    </div>
+    <ion-item *ngIf="currentUser && currentUser.role === 'ROLE_Nurse'">
+      <ion-label>I'am busy</ion-label>
+      <ion-toggle color="danger" [(ngModel)]="isBusy" (ionChange)="changeStatus()" ></ion-toggle>
+    </ion-item>
+    <ion-toolbar color="mcolor">
+      <ion-title>Menu</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <ion-content>
+    <ion-list>
+      <button ion-item menuClose *ngFor="let p of pages" (click)="openPage(p)">
+        <ion-icon item-start [name]="p.icon" [color]="isActive(p)"></ion-icon>
+        {{ p.title }}
+      </button>
+      <button ion-item menuClose (click)="logout()">
+        <ion-icon item-start name='log-out'></ion-icon>
+        Logout
+      </button>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
+<!-- main navigation -->
+<ion-nav [root]="rootPage" #content></ion-nav>
+<!-- swipeEnabled la giai phap tam thoi co the dung dc cho android de cho menu filter khong tu dong vuot duoc -->
+<ion-menu id="filterMenu" [content]="content" side="right" [swipeEnabled]="false">
+  <ion-header>
+    <ion-toolbar color="mcolor">
+      <ion-title>Filter</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content class="outer-content">
+    <ion-list>
+      <ion-list-header>
+        SELECTIONS
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Kinh nghiệm</ion-label>
+        <ion-select type="text" class="form-control col-xs-3" [(ngModel)]="searchCriteriaCareer" name="searchCriteriaCareer" (ngModelChange)="onChangeCareer($event)">
+          <ion-option *ngFor="let item of selectCareerOption" [value]="item" text-wrap>
+            {{item.label}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Loại hình</ion-label>
+        <ion-select type="text" class="form-control col-xs-2" [(ngModel)]="searchCriteriaType" name="searchCriteriaType" (ngModelChange)="onChangeType($event)">
+          <ion-option *ngFor="let item of selectTypeOption" [value]="item" text-wrap>
+            {{item.label}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <ion-item>
+        <ion-label>Bệnh viện</ion-label>
+        <ion-select type="text" class="form-control col-xs-4" [(ngModel)]="searchCriteriaHospital" name="searchCriteriaHospital"
+          (ngModelChange)="onChangeHospital($event)">
+          <ion-option *ngFor="let item of selectHospitalOption" [value]="item" text-wrap>
+            {{item.label}}
+          </ion-option>
+        </ion-select>
+      </ion-item>
+      <!-- <ion-item>
+        <ion-label>Dạng tìm kiếm</ion-label>
+        <ion-select type="text" class="form-control col-xs-3" [(ngModel)]="searchMode" name="searchMode" (ngModelChange)="onChangeMode($event)">
+          <ion-option *ngFor="let item of selectMode" [value]="item" text-wrap>
+            {{item.label}}
+          </ion-option>
+        </ion-select>
+      </ion-item> -->
+
+      <ion-list-header>
+        DATE
+      </ion-list-header>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T2')" *ngIf="monSt && monEn">Monday</button>
+            <span *ngIf="!(monSt && monEn)">Monday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setMonSt($event)" displayFormat="hh:mm A" [(ngModel)]="monSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setMonEn($event)" displayFormat="hh:mm A" [(ngModel)]="monEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T3')" *ngIf="tueSt && tueEn">Tueday</button>
+            <span *ngIf="!(tueSt && tueEn)">Tueday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setTueSt($event)" displayFormat="hh:mm A" [(ngModel)]="tueSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setTueEn($event)" displayFormat="hh:mm A" [(ngModel)]="tueEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T4')" *ngIf="wedSt && wedEn">Wednesday</button>
+            <span *ngIf="!(wedSt && wedEn)">Wednesday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setWedSt($event)" displayFormat="hh:mm A" [(ngModel)]="wedSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setWedEn($event)" displayFormat="hh:mm A" [(ngModel)]="wedEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T5')" *ngIf="thuSt && thuEn">Thursday</button>
+            <span *ngIf="!(thuSt && thuEn)">Thursday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setThuSt($event)" displayFormat="hh:mm A" [(ngModel)]="thuSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setThuEn($event)" displayFormat="hh:mm A" [(ngModel)]="thuEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T6')" *ngIf="friSt && friEn">Friday</button>
+            <span *ngIf="!(friSt && friEn)">Friday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setFriSt($event)" displayFormat="hh:mm A" [(ngModel)]="friSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setFriEn($event)" displayFormat="hh:mm A" [(ngModel)]="friEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('T7')" *ngIf="satSt && satEn">Saturday</button>
+            <span *ngIf="!(satSt && satEn)">Saturday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setSatSt($event)" displayFormat="hh:mm A" [(ngModel)]="satSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setSatEn($event)" displayFormat="hh:mm A" [(ngModel)]="satEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          <ion-item>
+            <button ion-button color="primary" (click)="resetTime('CN')" *ngIf="sunSt && sunEn">Sunday</button>
+            <span *ngIf="!(sunSt && sunEn)">Sunday</span>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="Start" (ionChange)="setSunSt($event)" displayFormat="hh:mm A" [(ngModel)]="sunSt"></ion-datetime>
+          </ion-item>
+        </ion-col>
+        <ion-col col-6>
+          <ion-item>
+            <ion-datetime placeholder="End" (ionChange)="setSunEn($event)" displayFormat="hh:mm A" [(ngModel)]="sunEn"></ion-datetime>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+    </ion-list>
+  </ion-content>
+</ion-menu>

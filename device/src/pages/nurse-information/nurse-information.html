@@ -1,0 +1,97 @@
+<!--
+  Generated template for the NurseInformationPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="mcolor">
+    <ion-title>nurse-information</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <div class="wrapper">
+
+    <div class="content-basic">
+      <div class="profile-image" (click)="editimage()">
+        <img src="{{avatar}}">
+      </div>
+
+      <div>
+        <div>
+          <h2>{{nurse.owner.profile.name}}</h2>
+        </div>
+        <div>
+          <p>Gender: {{nurse.owner.profile.sex}}</p>
+        </div>
+        <div>
+          <p>phone: {{nurse.owner.profile.phone}}</p>
+        </div>
+      </div>
+      <!-- <div>
+        Tap on your pic or nick name to change it.
+      </div> -->
+      <!-- <div class="spacer" style="height: 10px;"></div> -->
+
+    </div>
+    <div class="content-extra">
+      <ion-list>
+        <ion-item>
+          <p>Address: {{nurse.owner.profile.address}}</p>
+        </ion-item>
+        <ion-item>
+          <p *ngIf="nurse.type === 'Internal'">Type: Offical</p>
+          <p *ngIf="nurse.type === 'External'">Type: Family</p>
+        </ion-item>
+        <ion-item>
+          <p>Payment per hour: {{coreMoney * 1000 | currency:'VND':true }}</p>
+        </ion-item>
+        <ion-list-header>
+          Patien Information:
+        </ion-list-header>
+        <ion-item>
+          <ion-label color="primary" floating>Patient Name</ion-label>
+          <ion-input type="text" [(ngModel)]="patientName"></ion-input>
+        </ion-item>
+        <div class="spacer" style="height: 5px;"></div>
+        <ion-item>
+          <ion-label color="primary" floating>Patient Age</ion-label>
+          <ion-input type="number" [(ngModel)]="patientAge"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-label color="primary" floating>Description</ion-label>
+          <ion-textarea type="text" [(ngModel)]="patientDescription"></ion-textarea>
+        </ion-item>
+        <ion-item>
+          <ion-calendar [(ngModel)]="dateRange" [options]="optionsRange" [type]="type" [format]="'DD/MM/YYYY'" (onChange)="changeRange($event)">
+          </ion-calendar>
+        </ion-item>
+        <button ion-item (click)="makeContract()">
+          <ion-icon item-start name='checkmark'></ion-icon>
+          Done
+        </button>
+      </ion-list>
+      <!-- <div>
+        <div>
+          <p>Địa chỉ: {{nurse.owner.profile.address}}</p>
+        </div>
+        <div>
+          <p *ngIf="nurse.type === 'Internal'">Dạng điều dưỡng: Chính quy</p>
+          <p *ngIf="nurse.type === 'External'">Dạng điều dưỡng: Gia đình</p>
+        </div>
+        <div>
+          <p>Chi trả cho 1 buổi làm việc: {{money}}</p>
+        </div>
+        <div>
+            <ion-icon name="ok" class="icon-ok" (click)="makeContract()"></ion-icon>
+        </div>
+        <button ion-button round outline color="danger" (click)="logout()">Logout</button>
+      </div> -->
+    </div>
+  </div>
+
+</ion-content>

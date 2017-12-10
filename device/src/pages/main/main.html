@@ -1,0 +1,80 @@
+<!--
+  Generated template for the MainPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar color="mcolor">
+    <button ion-button menuToggle="left" start>
+          <ion-icon name="menu"></ion-icon>
+        </button>
+    <ion-title>main</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)='fastSearch()'>
+          <ion-icon name="search"></ion-icon>
+        </button>
+      <button ion-button icon-only (click)='getCurrentLocation()'>
+          <ion-icon name="ios-locate-outline"></ion-icon>
+        </button>
+      <button ion-button icon-only (click)="changeSearchingRadius()">
+          <ion-icon name="expand"></ion-icon>
+        </button>
+    </ion-buttons>
+    <button ion-button menuToggle="right" end>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <div class="box" [hidden]="!search">
+    <!-- <div class="container-1">
+      <span><i class="fa fa-search"></i></span>
+      <ion-icon name="search" class="icon"></ion-icon> -->
+      <ion-searchbar placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control"
+        #search  id="search"></ion-searchbar>
+    <!-- </div> -->
+  </div>
+
+  <!-- <div id="floating-panel" *ngIf="currentMarker">
+    <p class="card-title">{{currentMarker.name}}</p>
+    <p class="card-subtitle mb-2 text-muted">Giới tính: {{currentMarker.sex}} - sđt: {{currentMarker.phone}}</p>
+    <p class="card-text" *ngIf="markerHospital">Làm việc tại: {{currentMarker.hospital}}</p>
+    <p class="card-text">Địa chỉ: {{currentMarker.address}}</p>
+    <p class="card-text">Chi trả cho 1 buổi làm việc: {{money}}</p>
+    <button type="button" class="btn btn-default btn-number" (click)="makeContract()">
+          <span class="glyphicon glyphicon-ok"></span>
+      </button>
+  </div> -->
+
+
+  <div class="map" [class.hidemap]="!((switch == 'map') || error)">
+
+    <!-- <ion-searchbar placeholder="search for location" autocorrect="off" autocapitalize="off" spellcheck="off" type="text" class="form-control"
+    #search [formControl]="searchControl" [hidden]="!search"></ion-searchbar> -->
+    <agm-map [latitude]="latitude" [longitude]="longitude" [styles]="styles" [scrollwheel]="true"
+      [zoom]="zoom" #map>
+      <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+      <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m,i)" [latitude]="m.lat" [longitude]="m.lng"
+        [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)" [iconUrl]="'https://cdn3.iconfinder.com/data/icons/medical-2-1/512/map_marker-32.png'">
+        <!--http://maps.google.com/mapfiles/ms/icons/blue-dot.png  -->
+        <!-- <agm-info-window>
+        <strong>{{m.name}}</strong>
+      </agm-info-window> -->
+      </agm-marker>
+      <agm-circle [latitude]="latitude" [longitude]="longitude" [(radius)]="radius" [circleDraggable]="false" [editable]="false"
+        [visible]="true" (radiusChange)="radiusChanged($event)" #circle>
+      </agm-circle>
+      <!-- [fillColor]="'red'" -->
+      <!-- <agm-polygon #myPolygon [paths]="paths" [editable]="false" [draggable]="false" [visible]="false" [strokeOpacity]=0 .0 (polyClick)="click($event)"
+        (polyDblClick)="delete($event)"></agm-polygon> -->
+    </agm-map>
+
+  </div>
+
+</ion-content>

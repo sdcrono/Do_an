@@ -1,0 +1,73 @@
+{
+  "project_info": {
+    "project_number": "1041806212844",
+    "firebase_url": "https://doancuatui-b0c91.firebaseio.com",
+    "project_id": "doancuatui-b0c91",
+    "storage_bucket": "doancuatui-b0c91.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041806212844:android:f623a9695202d3f5",
+        "android_client_info": {
+          "package_name": "com.doan.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041806212844-nfm645oif7u4bdce78oonb8kso6avr0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsSxBgUtDSlwmxqBLgu0BxDKVScx2tSzU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1041806212844:android:764d2cb7da3280eb",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1041806212844-nfm645oif7u4bdce78oonb8kso6avr0o.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBsSxBgUtDSlwmxqBLgu0BxDKVScx2tSzU"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

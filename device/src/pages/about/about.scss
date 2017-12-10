@@ -1,0 +1,67 @@
+page-about {
+    // .profile-image{
+    //     img{
+    //         height: 200px;
+    //         width: 200px;
+    //         border-radius:50%;
+    //         border: 4px solid rgba(255,255,255,0.4);
+    //         -webkit-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+    //         -moz-box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+    //         box-shadow: 0px 0px 142px -37px rgba(0,0,0,0.75);
+    //     }
+    // }
+    // .scroll-content {
+    //     align-content: center;
+    //     display: flex;
+    //     flex-direction: column;
+    //     justify-content: center;
+    //     text-align: center;
+    // }
+    background-color: #E9EBEE;
+    agm-map {
+        height: 300px;
+        width: 300px;  
+    }
+
+    p {
+        font-size: 0.8em;
+        color: #d2d2d2;
+    }
+
+    .swiper-slide {
+        display: block;
+    }
+
+    ion-label, .select-text {
+        margin-left: 10px;
+    }
+
+    ion-label, label-md {
+        margin-left: 10px;
+    }
+
+    ion-list-header {
+        margin-top: 1rem;
+    }
+
+    ion-input, ion-select, ion-textarea {
+        background-color: #f2f2f2;
+        padding: 5px 10px;
+    }
+
+    .invalid {
+        border: 1px solid #ea6153;
+    }
+    .type-of-day,
+    .number-of-day {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+    .center {
+        display: flex;
+        justify-content: center;
+      }
+
+}
+

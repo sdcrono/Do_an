@@ -1,0 +1,143 @@
+<!--
+  Generated template for the RegisterPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<!-- <ion-header>
+
+  <ion-navbar>
+    <ion-title>register {{err}}</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label floating>Name</ion-label>
+      <ion-input type="text" [(ngModel)]="userData.name"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Email</ion-label>
+      <ion-input type="email" [(ngModel)]="userData.email"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" [(ngModel)]="userData.username"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" [(ngModel)]="userData.password"></ion-input>
+    </ion-item>
+  </ion-list>
+  <div padding>
+    <button ion-button block (click)="register()">Sign Up</button>
+  </div>
+
+  <div padding>
+    <button ion-button block (click)="login()">Already account? Sign In</button>
+  </div>
+</ion-content> -->
+<ion-header>
+
+</ion-header>
+
+
+<ion-content class="background">
+
+  <ion-slides #signupSlider>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>
+          Signup for user
+        </ion-card-header>  
+        <ion-card-content>
+          <!-- <p *ngIf="submitUserAttempt" style="color: #ea6153;">Please fill out all details accurately.</p> -->
+
+          <ion-list>
+            <form [formGroup]="slideUserForm">
+              <ion-item>
+                <ion-input type="text" placeholder="Your name" [class.invalid]="!slideUserForm.controls.name.valid && (slideUserForm.controls.name.dirty|| submitUserAttempt)"
+                  formControlName="name" [(ngModel)]="userData.name"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideUserForm.controls.name.valid  && (slideUserForm.controls.name.dirty || submitUserAttempt)">Please enter a name.</p>
+              <ion-item>
+                <ion-input type="email" placeholder="Email" [class.invalid]="!slideUserForm.controls.email.valid && (slideUserForm.controls.email.dirty|| submitUserAttempt)"
+                  formControlName="email" [(ngModel)]="userData.email"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideUserForm.controls.email.valid  && (slideUserForm.controls.email.dirty || submitUserAttempt)">Please enter a valid email.</p>
+              <ion-item>
+                <ion-input type="password" placeholder="Password" [class.invalid]="!slideUserForm.controls.password.valid && (slideUserForm.controls.password.dirty|| submitUserAttempt)"
+                  formControlName="password" [(ngModel)]="userData.password"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideUserForm.controls.password.valid  && (slideUserForm.controls.password.dirty || submitUserAttempt)">Please enter a password (at least 6 chars).</p>
+
+              <ion-item>
+                <ion-input type="text" placeholder="Username" [class.invalid]="!slideUserForm.controls.username.valid && (slideUserForm.controls.username.dirty|| submitUserAttempt)"
+                  formControlName="username" [(ngModel)]="userData.username"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideUserForm.controls.username.valid  && (slideUserForm.controls.username.dirty || submitUserAttempt)">Please enter a username.</p>
+            </form>
+            <button ion-button block round outline color="light" (click)="register(slideUserForm.value)">Sign Up</button>
+            <button ion-button full clear color="light" (click)="goback()">Go Back</button>
+            <ion-buttons end>
+              <button ion-button full clear color="light" icon-right (click)="next()">Nurse Registration (SLIDE LEFT)<ion-icon name="arrow-forward"></ion-icon></button>
+            </ion-buttons> 
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+    <ion-slide>
+      <ion-card>
+        <ion-card-header>
+          Signup for nurse
+        </ion-card-header>
+        <ion-card-content>
+          <ion-list>
+
+            <form [formGroup]="slideNurseForm">
+              <ion-item>
+                <ion-input type="text" placeholder="Your name" [class.invalid]="!slideNurseForm.controls.name.valid && (slideNurseForm.controls.name.dirty|| submitNurseAttempt)"
+                  formControlName="name" [(ngModel)]="nurseData.name"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideNurseForm.controls.name.valid  && (slideNurseForm.controls.name.dirty || submitNurseAttempt)">Please enter a name.</p>
+              <ion-item>
+                <ion-input type="email" placeholder="Email" [class.invalid]="!slideNurseForm.controls.email.valid && (slideNurseForm.controls.email.dirty|| submitNurseAttempt)"
+                  formControlName="email" [(ngModel)]="nurseData.email"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideNurseForm.controls.email.valid  && (slideNurseForm.controls.email.dirty || submitNurseAttempt)">Please enter a valid email.</p>
+              <ion-item>
+                <ion-input type="password" placeholder="Password" [class.invalid]="!slideNurseForm.controls.password.valid && (slideNurseForm.controls.password.dirty|| submitNurseAttempt)"
+                  formControlName="password" [(ngModel)]="nurseData.password"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideNurseForm.controls.password.valid  && (slideNurseForm.controls.password.dirty || submitNurseAttempt)">Please enter a password.</p>
+              <ion-item>
+                <ion-input type="text" placeholder="Username" [class.invalid]="!slideNurseForm.controls.username.valid && (slideNurseForm.controls.username.dirty|| submitNurseAttempt)"
+                  formControlName="username" [(ngModel)]="nurseData.username"></ion-input>
+              </ion-item>
+              <p *ngIf="!slideNurseForm.controls.username.valid  && (slideNurseForm.controls.username.dirty || submitNurseAttempt)">Please enter a username.</p>
+              <ion-item>
+                <ion-select placeholder="Type" [class.invalid]="!slideNurseForm.controls.type.valid && (slideNurseForm.controls.type.dirty|| submitNurseAttempt)"
+                  formControlName="type" [(ngModel)]="nurseData.type">
+                  <ion-option value="Internal" checked="true">Internal</ion-option>
+                  <ion-option value="External">External</ion-option>
+                </ion-select>
+              </ion-item>
+            </form>
+            <button ion-button block round outline color="light" (click)="signup(slideNurseForm.value)">Sign Up</button>
+            <button ion-button full clear color="light" (click)="goback()">Go Back</button>
+            <ion-buttons start>
+              <button ion-button full clear color="light" (click)="prev()"><ion-icon name="arrow-back"></ion-icon> USER SIGNUP (SLIDE RIGHT)</button>
+            </ion-buttons>                 
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>
