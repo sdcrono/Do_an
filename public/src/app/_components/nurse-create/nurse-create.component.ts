@@ -94,7 +94,8 @@ export class NurseCreateComponent implements OnInit {
       'certification': [null, Validators.required],
       'career': [null, Validators.required],
       'hospital': [null],
-      'type': [null, Validators.required],
+      'type': [null, Validators.required],   
+      'salary': [null, Validators.required],
     })   
   }
 
@@ -143,7 +144,8 @@ export class NurseCreateComponent implements OnInit {
       career: value.career,
       hospital: value.hospital,
       type: value.type,
-      busyDates: this.busyDates
+      busyDates: this.busyDates,
+      salaryBasic: value.salary,
     };
     this.nursesService.upsert(this.nurse).takeWhile(() => this.alive).subscribe(result => {
       let id = result.text();
@@ -153,7 +155,7 @@ export class NurseCreateComponent implements OnInit {
       this.alertService.success('Thêm thành công', true);
       this.router.navigate(['/nurses/', id]);
     }, err => {
-      this.alertService.error(err);
+      this.alertService.error(err, false);
       console.log(err);
     });
     console.log("Nurse " + this.nurse);

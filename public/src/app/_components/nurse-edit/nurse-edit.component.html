@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-8"></div>
-    <div class="col-md-4">
+    <div class="col-md-11"></div>
+    <div class="col-md-1">
       <a [routerLink]="['/nurses']" class="btn btn-default">
         <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
       </a>      
@@ -14,13 +14,13 @@
         <form [formGroup]="reactiveForm" (ngSubmit)="editNurse(reactiveForm.value)">
           <div class="col-md-6">
             <!-- username  -->
-            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched}">
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched}" *ngIf="nurse.profile">
               <label for="name">Tên tài khoản</label>
               <div class="alert" *ngIf="reactiveForm.controls['username'].hasError('required') && reactiveForm.controls['username'].touched">{{ requireAlert }}</div>
               <input type="text" class="form-control input-lg" placeholder="nhập tên tài khoản" [formControl]="reactiveForm.controls['username']" [(ngModel)]="nurse.username">
             </div>
             <!-- password -->
-            <div class="form-group">
+            <div class="form-group" *ngIf="nurse.profile">
               <label for="name">Mật khẩu</label>
               <!-- <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('required') && reactiveForm.controls['password'].touched">{{ requireAlert }}</div>
               <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('minlength') && reactiveForm.controls['password'].touched">{{ minPassAlert }}</div> -->
@@ -65,7 +65,7 @@
               </select>
             </div>
             <!-- submit -->
-            <div class="form-group">
+            <div class="form-group" [hidden]="!nurse.profile">
               <button type="submit" class="btn btn-success" [disabled]="!reactiveForm.valid">Lưu thay đổi</button>
             </div>            
           </div>
@@ -111,8 +111,14 @@
             <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['retribution'].valid && reactiveForm.controls['retribution'].touched}" *ngIf=" nurse.nurseprofile">
               <label for="name">Điểm</label>
               <div class="alert" *ngIf="reactiveForm.controls['career'].hasError('retribution') && reactiveForm.controls['retribution'].touched">{{ requireAlert }}</div>
-              <input type="number" pattern="[0-9]*" class="form-control input-lg" placeholder="nhập tên bệnh viện hiện đang làm" [formControl]="reactiveForm.controls['retribution']" [(ngModel)]="nurse.nurseprofile.retribution">
+              <input type="number" pattern="[0-9]*" class="form-control input-lg" placeholder="nhập số điểm tích lũy" [formControl]="reactiveForm.controls['retribution']" [(ngModel)]="nurse.nurseprofile.retribution">
             </div>
+            <!-- salary -->
+            <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['salary'].valid && reactiveForm.controls['salary'].touched}" *ngIf=" nurse.nurseprofile">
+              <label for="name">Lương cơ bản</label>
+              <div class="alert" *ngIf="reactiveForm.controls['career'].hasError('salary') && reactiveForm.controls['salary'].touched">{{ requireAlert }}</div>
+              <input type="number" pattern="[0-9]*" class="form-control input-lg" placeholder="nhập lương cơ bản" [formControl]="reactiveForm.controls['salary']" [(ngModel)]="nurse.nurseprofile.salaryBasic">
+            </div>            
             <!-- address -->
             <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['address'].valid && reactiveForm.controls['address'].touched}">
               <label for="name">Địa chỉ <i *ngIf="nurse.profile">(hiện tại: {{ nurse.profile.address }})</i></label>
@@ -125,8 +131,8 @@
           </div>
       </form>
 
+      <div class="col-md-12 margin-top"><h5 class="text-center">Đăng ký ngày bận</h5></div>
         <div class="col-md-6 top-buffer">
-          <div class="row"><h5 class="text-center">Đăng ký ngày bận</h5></div>
           <div class="row">
             <div class="col-md-5">
               <div class="input-group">

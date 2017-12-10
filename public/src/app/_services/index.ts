@@ -4,5 +4,6 @@ export * from './global.event.manager';
 export * from './navbar.service';
 export * from './users.service';
 export * from './nurses.service';
+export * from './employees.service';
 export * from './markers.service';
 export * from './contracts.service';

@@ -42,14 +42,41 @@ export class ContractsService {
         return this.http.post('/contracts', contract);
     }
 
-    approve(_id: any) {
-        return this.http.post('/contracts/approve', _id);
+    getTime(contract: any) {
+
+        return this.http.post('/contracts/time', contract);
+    }
+
+    approve(req: any) {
+        return this.http.post('/contracts/approve', req);
+    }
+
+    done(contractId: any, nurseId: any, workingDate: any) {
+        let info = {
+            contractId: contractId,
+            nurseId: nurseId,    
+            workingDate: workingDate
+        }
+        return this.http.post('/contracts/done', info);
     }
     
+    off(contractId: any, nurseId: any, workingDate: any) {
+        let info = {
+            contractId: contractId,
+            nurseId: nurseId,    
+            workingDate: workingDate
+        }
+        return this.http.post('/contracts/off', info);
+    }
+
     reject(_id: any) {
         return this.http.post('/contracts/reject', _id);
     }    
- 
+
+    finish(_id: any) {
+        return this.http.post('/contracts/finish', _id);
+    }    
+
     // update(user: User) {
     //     return this.http.put('/users/' + user._id, user);
     // }

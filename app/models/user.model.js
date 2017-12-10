@@ -29,6 +29,8 @@ var userSchema = new Schema({
         type: Date,
         default: Date.now
     },
+    
+	registrationId	: [String],
     profile: {
         type: Schema.Types.ObjectId,
         ref: 'Profiles'
@@ -36,6 +38,10 @@ var userSchema = new Schema({
     nurseprofile: {
         type: Schema.Types.ObjectId,
         ref: 'NurseProfiles'
+    },
+    employeeprofile: {
+        type: Schema.Types.ObjectId,
+        ref: 'EmployeeProfiles'
     },
     isDelete: Boolean
 });

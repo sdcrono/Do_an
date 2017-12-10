@@ -1,0 +1,29 @@
+
+.row.filter-menu {
+    margin: 10px 0px;
+  }
+  
+.filter {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.filter > span {    
+    display: inline-block;
+    padding: 0.5rem 0.75rem;
+}
+
+.filter > .title {    
+    padding: 0.5rem 0.75rem;
+}
+
+.all-checkbox {    
+    display: block;
+    padding: 0.5rem 0.75rem;
+}
+
+agm-map {
+    height: 780px;
+    width: 100%;   
+}

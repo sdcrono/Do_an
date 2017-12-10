@@ -35,6 +35,9 @@ h1 {
     font-size: 2em;
 }
 
+.col-md-12.margin-top {
+    margin-top: .5rem;
+}
 
 @keyframes alertAnim {
     from {

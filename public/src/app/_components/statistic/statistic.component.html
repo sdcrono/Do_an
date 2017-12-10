@@ -1,0 +1,91 @@
+<div class="statistic-wrapper">
+  <div class="row filter-menu">
+    <div class="col-md-2">
+      <select type="text" class="form-control col-xs-3" [(ngModel)]="searchCriteriaType" name="searchCriteriaType" (ngModelChange)="onChangeType()">
+        <option *ngFor="let item of selectTypeOption" [ngValue]="item">
+          {{item.label}}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-5">
+        <div class="filter">
+          <div class="title">
+            <span>Quận (chỉ dành cho yêu cầu)</span>
+          </div>
+          <div>
+            <select type="text" class="form-control" [(ngModel)]="district" name="district" (ngModelChange)="onChangeType()">
+              <option value="0">Toàn bộ</option>
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5">5</option>
+              <option value="6">6</option>
+              <option value="7">7</option>
+              <option value="8">8</option>
+              <option value="9">9</option>
+              <option value="10">10</option>
+              <option value="11">11</option>
+              <option value="12">12</option>
+              <option value="Thủ Đức">Thủ Đức</option>
+              <option value="Gò Vấp">Gò Vấp</option>
+              <option value="Bình Thạnh">Bình Thạnh</option>
+              <option value="Tân Bình">Tân Bình</option>
+              <option value="Tân Phú">Tân Phú</option>
+              <option value="Phú Nhuận">Phú Nhuận</option>
+              <option value="Bình Tân">Bình Tân</option>
+              <option value="13">Không xác định</option>
+            </select>
+          </div>
+        </div>
+      </div>
+    <div class="col-md-1">
+      <div class="all-checkbox">
+        Toàn bộ
+        <input [(ngModel)]="all" (change)="onChangeType()" type="checkbox" >
+      </div>
+    </div>
+    <div class="col-md-2">
+      <div class="filter">
+        <span>Tháng</span>
+        <select type="number" class="form-control" [(ngModel)]="month" name="month" (ngModelChange)="onChangeType()">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6">6</option>
+          <option value="7">7</option>
+          <option value="8">8</option>
+          <option value="9">9</option>
+          <option value="10">10</option>
+          <option value="11">11</option>
+          <option value="12">12</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="col-md-2">
+      <div class="filter">
+        <span>Năm</span>
+        <input type="number" class="form-control" min="1970" max="2880" step="1" [(ngModel)]="year" (ngModelChange)="onChangeType()">
+      </div>
+    </div>
+  </div>
+  <agm-map [latitude]="latitude" [longitude]="longitude" [fitBounds]="latlngBounds" [styles]="styles" [scrollwheel]="true"
+    [zoom]="zoom" (mapClick)="mapClicked($event)">
+    <agm-marker-cluster imagePath="https://raw.githubusercontent.com/googlemaps/v3-utility-library/master/markerclustererplus/images/m">
+      <!-- <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker> -->
+      <agm-marker *ngFor="let m of markers; let i = index" (markerClick)="clickedMarker(m,i)" [latitude]="m.lat" [longitude]="m.lng"
+        [markerDraggable]="m.draggable" (dragEnd)="markerDragEnd(m, $event)">
+        <!--http://maps.google.com/mapfiles/ms/icons/blue-dot.png  -->
+        <agm-info-window>
+          <strong>{{m.name}}</strong>
+        </agm-info-window>
+      </agm-marker>
+    </agm-marker-cluster>
+  </agm-map>
+  <!-- <h2> Bar Chart</h2> -->
+  <!-- <div id="bar_chart" [chartData]="bar_ChartData" [chartOptions]="bar_ChartOptions" chartType="BarChart" GoogleChart></div> -->
+
+</div>

@@ -98,7 +98,7 @@ export class UserCreateComponent implements OnInit {
       this.alertService.success('Thêm thành công', true);
       this.router.navigate(['/users/', id]);
     }, err => {
-      this.alertService.error(err);
+      this.alertService.error(err, false);
       console.log(err);
     });
 

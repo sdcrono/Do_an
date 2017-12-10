@@ -28,9 +28,6 @@ export class UserComponent implements OnInit {
   getUserList() {
     this.usersService.getAll().subscribe(users => {
       this.users = users;
-      users.forEach(user => {
-        console.log("User ", user);
-      });
     });
   }
 
@@ -45,8 +42,12 @@ export class UserComponent implements OnInit {
         this.getUserList();
     }, err => {
       console.log(err);
-      this.alertService.error(err);
+      this.alertService.error(err, false);
     });
+  }
+
+  refresh(id: any) {
+    this.getUserList();
   }
 
 }

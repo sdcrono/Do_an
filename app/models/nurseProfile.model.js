@@ -20,6 +20,15 @@ var nurseProfileSchema = new Schema({
         type: String,
         enum: ['Internal', 'External']
     },
+    salaryBasic: Number,
+    salary: [{
+        month: Number,
+        year: Number,
+        payment: {
+            type: Number,
+            default: 2000000
+        }
+    }],
     isDelete: Boolean,
     status: {
         type: String,

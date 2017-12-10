@@ -6,4 +6,5 @@ export interface Nurse {
     nurseprofile: NurseProfile;
     profile: Profile;
     location: Location;
+    created_at: Date;
 }

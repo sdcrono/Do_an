@@ -19,6 +19,7 @@
 #wrapper { position: relative; }
 #over_map { position: absolute; background-color: transparent; top: 10px; left: 10px; z-index: 99; }
 #over_map_right { position: absolute; background-color: transparent; top: 10px; right: 10px; z-index: 99; } 
+#over_map_left { position: absolute; background-color: transparent; top: 10px; left: 10px; z-index: 99; overflow-y: auto; height: 780px;} 
 
 .selcls {
 
@@ -68,4 +69,8 @@
 
 .myLocation {
   height: 75%;
+}
+
+.row.filter-menu {
+  margin: 20px 0px;
 }

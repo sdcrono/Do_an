@@ -1,0 +1,187 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-8"></div>
+    <div class="col-md-4">
+      <a [routerLink]="['/nurses']" class="btn btn-default">
+        <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+      </a>
+    </div>
+  </div>
+  <h1>Thêm nhân viên</h1>
+  <div class="row">
+    <div class="col-md-12">
+      <!-- <form (ngSubmit)="saveNurse()" #nurseForm="ngForm" ngNativeValidate> -->
+      <form [formGroup]="reactiveForm" (ngSubmit)="saveEmployee(reactiveForm.value)">
+        <div class="col-md-6">
+          <!-- username  -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched}">
+            <label for="name">Tên tài khoản</label>
+            <div class="alert" *ngIf="reactiveForm.controls['username'].hasError('required') && reactiveForm.controls['username'].touched">{{ requireAlert }}</div>
+            <input type="text" class="form-control input-lg" placeholder="nhập tên tài khoản" [formControl]="reactiveForm.controls['username']">
+          </div>
+          <!-- password -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['password'].valid && reactiveForm.controls['password'].touched}">
+            <label for="name">Mật khẩu</label>
+            <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('required') && reactiveForm.controls['password'].touched">{{ requireAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['password'].hasError('minlength') && reactiveForm.controls['password'].touched">{{ minPassAlert }}</div>
+            <input type="password" class="form-control input-lg" placeholder="nhập mật khẩu" [formControl]="reactiveForm.controls['password']">
+          </div>
+          <!-- name -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['name'].valid && reactiveForm.controls['name'].touched}">
+            <label for="name">Họ Tên</label>
+            <div class="alert" *ngIf="reactiveForm.controls['name'].hasError('required') && reactiveForm.controls['name'].touched">{{ requireAlert }}</div>
+            <input type="text" class="form-control input-lg" placeholder="nhập tên" [formControl]="reactiveForm.controls['name']">
+          </div>
+          <!-- email -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['email'].valid && reactiveForm.controls['email'].touched}">
+            <label for="name">Email</label>
+            <div class="alert" *ngIf="reactiveForm.controls['email'].hasError('required') && reactiveForm.controls['email'].touched">{{ requireAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['email'].hasError('pattern') && reactiveForm.controls['email'].touched">{{ emailAlert }}</div>
+            <input type="email" pattern="[^@]+@[^@]+\.[a-zA-Z]{2,6}" class="form-control input-lg" placeholder="nhập email" [formControl]="reactiveForm.controls['email']">
+          </div>
+          <!-- phone -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['phone'].valid && reactiveForm.controls['phone'].touched}">
+            <label for="name">Số điện thoại</label>
+            <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('required') && reactiveForm.controls['phone'].touched">{{ requireAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('minlength') && reactiveForm.controls['phone'].touched">{{ minPhoneAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['phone'].hasError('maxlength') && reactiveForm.controls['phone'].touched">{{ maxPhoneAlert }}</div>
+            <input type="tel" pattern="[0-9]*" class="form-control input-lg" placeholder="Nhập số điện thoại" [formControl]="reactiveForm.controls['phone']">
+          </div>
+          <!-- age -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['age'].valid && reactiveForm.controls['age'].touched}">
+            <label for="name">Tuổi</label>
+            <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('required') && reactiveForm.controls['age'].touched">{{ requireAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('maxValue') && reactiveForm.controls['age'].touched">{{ maxAgeAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['age'].hasError('minAge') && reactiveForm.controls['age'].touched">{{ minAgeAlert }}</div>
+            <input type="number" pattern="[0-9]*" class="form-control input-lg" placeholder="nhập tuổi" [formControl]="reactiveForm.controls['age']">
+          </div>
+          <!-- gender -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['gender'].valid && reactiveForm.controls['gender'].touched}">
+            <label for="name">Giới tính</label>
+            <div class="alert" *ngIf="reactiveForm.controls['gender'].hasError('required') && reactiveForm.controls['gender'].touched">{{ requireAlert }}</div>
+            <select type="text" class="form-control input-lg" [formControl]="reactiveForm.controls['gender']">
+              <option value="Nam">Nam</option>
+              <option value="Nữ">Nữ</option>
+            </select>
+          </div>
+          <!-- job -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['job'].valid && reactiveForm.controls['job'].touched}">
+            <label for="name">Công việc</label>
+            <div class="alert" *ngIf="reactiveForm.controls['job'].hasError('required') && reactiveForm.controls['job'].touched">{{ requireAlert }}</div>
+            <input type="text" class="form-control input-lg" placeholder="nhập tên" [formControl]="reactiveForm.controls['job']">
+          </div>
+          <!-- submit -->
+          <div class="form-group">
+            <button type="submit" class="btn btn-success" [disabled]="!reactiveForm.valid">Thêm mới</button>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <!-- id_number -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['id_number'].valid && reactiveForm.controls['id_number'].touched}">
+            <label for="name">CMND</label>
+            <div class="alert" *ngIf="reactiveForm.controls['id_number'].hasError('required') && reactiveForm.controls['id_number'].touched">{{ requireAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['id_number'].hasError('minlength') && reactiveForm.controls['id_number'].touched">{{ minIdNumberAlert }}</div>
+            <div class="alert" *ngIf="reactiveForm.controls['id_number'].hasError('maxlength') && reactiveForm.controls['id_number'].touched">{{ maxIdNumberAlert }}</div>
+            <input type="text" class="form-control input-lg" placeholder="nhập số chứng minh nhân dân" [formControl]="reactiveForm.controls['id_number']">
+          </div>
+          <!-- home_town -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['home_town'].valid && reactiveForm.controls['home_town'].touched}">
+            <label for="name">Quê quán</label>
+            <div class="alert" *ngIf="reactiveForm.controls['home_town'].hasError('required') && reactiveForm.controls['home_town'].touched">{{ requireAlert }}</div>
+            <input type="text" class="form-control input-lg" placeholder="nhập quê quán" [formControl]="reactiveForm.controls['home_town']">
+          </div>
+          <!-- education -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['education'].valid && reactiveForm.controls['education'].touched}">
+            <label for="name">Chuyên môn</label>
+            <div class="alert" *ngIf="reactiveForm.controls['education'].hasError('required') && reactiveForm.controls['education'].touched">{{ requireAlert }}</div>
+            <select type="text" class="form-control input-lg" [formControl]="reactiveForm.controls['education']">
+              <option value="C">Cao đẳng</option>
+              <option value="D">Đại học</option>
+              <option value="DS">Sau Đại học</option>
+            </select>
+          </div>
+          <!-- division -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['division'].valid && reactiveForm.controls['division'].touched}">
+            <label for="name">Phòng ban</label>
+            <div class="alert" *ngIf="reactiveForm.controls['division'].hasError('required') && reactiveForm.controls['division'].touched">{{ requireAlert }}</div>
+            <select type="text" class="form-control input-lg" [formControl]="reactiveForm.controls['division']">
+              <option value="KT">Kế toán</option>
+              <option value="TC">Tài chính</option>
+            </select>
+          </div>
+          <!-- salary -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['salary'].valid && reactiveForm.controls['salary'].touched}">
+            <label for="name">Lương</label>
+            <div class="alert" *ngIf="reactiveForm.controls['salary'].hasError('required') && reactiveForm.controls['salary'].touched">{{ requireAlert }}</div>
+            <input type="number" class="form-control input-lg" placeholder="nhập lương cơ bản" [formControl]="reactiveForm.controls['salary']">
+          </div>
+          <!-- type -->
+          <!-- <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['type'].valid && reactiveForm.controls['type'].touched}">
+              <label for="name">Dạng điều dưỡng</label>
+              <div class="alert" *ngIf="reactiveForm.controls['home_town'].hasError('type') && reactiveForm.controls['type'].touched">{{ requireAlert }}</div>
+              <select type="text" class="form-control input-lg" [formControl]="reactiveForm.controls['type']">
+                <option value="Internal">Điều dưỡng chính quy</option>
+                <option value="External">Điều dưỡng gia đình</option>
+              </select>
+            </div> -->
+          <!-- address -->
+          <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['address'].valid && reactiveForm.controls['address'].touched}">
+            <label for="name">Địa chỉ</label>
+            <div class="alert" *ngIf="reactiveForm.controls['address'].hasError('required') && reactiveForm.controls['address'].touched">{{ requireAlert }}</div>
+            <input placeholder="search for location" [formControl]="reactiveForm.controls['address']" autocorrect="off" autocapitalize="off"
+              spellcheck="off" type="text" class="form-control input-lg" #search [formControl]="searchControl">
+          </div>
+          <agm-map [latitude]="latitude" [longitude]="longitude" [scrollwheel]="true" [zoom]="zoom">
+            <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
+          </agm-map>
+        </div>
+      </form>
+      <!-- <div class="col-md-6 top-buffer">
+          <div class="row"><h5 class="text-center">Đăng ký ngày bận</h5></div>
+          <div class="row">
+            <div class="col-md-5">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                <select type="text" class="form-control" [(ngModel)]="date" name="date">
+                  <option value="T2">Thứ 2</option>
+                  <option value="T3">Thứ 3</option>
+                  <option value="T4">Thứ 4</option>
+                  <option value="T5">Thứ 5</option>
+                  <option value="T6">Thứ 6</option>
+                  <option value="T7">Thứ 7</option>
+                  <option value="CN">Chủ Nhật</option>            
+                </select>              
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-log-in"></i></span>
+                <input class="form-control" [value]="start | date:'shortTime'" [(ngModel)]="start" name="start" dateTimePicker [pickerType]="'time'" readonly [minMoment]="limitSt" [maxMoment]="end">
+              </div>
+              <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-log-out"></i></span>
+                <input class="form-control" [value]="end | date:'shortTime'" [(ngModel)]="end" name="end" dateTimePicker [pickerType]="'time'" readonly [minMoment]="start" [maxMoment]="limitEn">
+              </div>
+            </div>
+             <div class="col-md-1">      
+              <button type="button" class="btn btn-success btn-number" (click)="addBusyDate()">
+                <span class="glyphicon glyphicon-ok"></span>
+              </button>
+             </div>             
+          </div>
+
+
+        </div>
+        <div class="col-md-6  top-buffer jumbotron">
+          <table class="table">
+            <tr *ngFor="let busyDate of busyDates">
+              <td>{{ busyDate.date }}</td>
+              <td>{{ busyDate.start_time | date:'shortTime' }}</td>
+              <td>{{ busyDate.end_time | date:'shortTime' }}</td>
+              <td><button type="button" class="btn btn btn-danger btn-number" (click)="deleteBusyDate(busyDate)"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button></td> 
+            </tr>
+          </table>
+        </div>           -->
+
+    </div>
+  </div>
+</div>

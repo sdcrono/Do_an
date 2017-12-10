@@ -18,6 +18,7 @@ export class UserEditComponent implements OnInit {
   minPassAlert:string = 'Mật khẩu phải nhiều hơn 5 ký tự';
   minPhoneAlert:string = 'Số điện thoại cần đúng 11 chữ số';
   maxPhoneAlert:string = 'Số điện thoại cần đúng 11 chữ số';
+  patternPhoneAlert:string = 'Nhập số';
   maxAgeAlert:string = 'cần nhỏ hơn 49 tuổi';
   minAgeAlert:string = 'cần lớn hơn 21 tuổi';
   emailAlert:string = 'Cần điền đúng email';
@@ -31,6 +32,8 @@ export class UserEditComponent implements OnInit {
 
   @ViewChild("search")
   public searchElementRef: ElementRef;
+
+  isLoader = false;
 
   constructor(
     private alertService: AlertService,
@@ -64,6 +67,7 @@ export class UserEditComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.isLoader = true;
     this.getUser(this.route.snapshot.params['id']);
     this.latitude = 10.772057;
     this.longitude = 106.698333;
@@ -75,8 +79,8 @@ export class UserEditComponent implements OnInit {
   getUser(id) {
     this.usersService.getById(id).subscribe(user => {
       this.user = user;
-      console.log("User ", user);
-    });
+      this.isLoader = false;
+    }, err => this.isLoader = false);
   }
 
   editUser(value: any) {
@@ -101,7 +105,7 @@ export class UserEditComponent implements OnInit {
       this.alertService.success('Chỉnh sửa thành công', true);
       this.router.navigate(['/users/', id]);
     }, err => {
-      this.alertService.error(err);
+      this.alertService.error(err, false);
       console.log(err);
     });
 

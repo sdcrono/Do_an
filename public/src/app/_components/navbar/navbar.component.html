@@ -1,5 +1,5 @@
     <nav class="navbar navbar-inverse navbar-fixed-top" *ngIf="currentUser!=''">
-      <div class="container">
+      <div class="navbar-wrapper">
         <div class="navbar-header">
           <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
             <span class="sr-only">Toggle navigation</span>
@@ -16,9 +16,36 @@
                     <span class='glyphicon glyphicon-home'></span> Trang chủ  
                 </a>  
             </li>
-            <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
+            <li class="dropdown" *ngIf="currentUser.role=='ROLE_Admin' || currentUser.role=='ROLE_Employee'">
+                <a class="dropdown-toggle" data-toggle="dropdown">Quản lý
+                <!-- <span class="caret"></span> -->
+            </a>
+                <ul class="dropdown-menu">
+                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin' || currentUser.role=='ROLE_Employee'">  
+                        <a [routerLink]="['/users']">  
+                            <span class='glyphicon glyphicon-user'></span> Quản lý khách hàng
+                        </a>  
+                    </li>
+                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin' || currentUser.role=='ROLE_Employee'">  
+                        <a [routerLink]="['/nurses']">  
+                            <span class='glyphicon glyphicon-user'></span> Quản lý điều dưỡng
+                        </a>  
+                    </li>
+                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
+                        <a [routerLink]="['/employees']">  
+                            <span class='glyphicon glyphicon-user'></span> Quản lý Nhân Viên
+                        </a>  
+                    </li>
+                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin' || currentUser.role=='ROLE_Employee'">  
+                        <a [routerLink]="['/contracts']">  
+                            <span class='glyphicon glyphicon-briefcase'></span> Quản lý yêu cầu
+                        </a>  
+                    </li> 
+                </ul>
+              </li>
+            <!-- <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
                 <a [routerLink]="['/users']">  
-                    <span class='glyphicon glyphicon-user'></span> Quản lý người dùng
+                    <span class='glyphicon glyphicon-user'></span> Quản lý khách hàng
                 </a>  
             </li>
             <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
@@ -27,20 +54,30 @@
                 </a>  
             </li>
             <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
+                <a [routerLink]="['/employees']">  
+                    <span class='glyphicon glyphicon-user'></span> Quản lý Nhân Viên
+                </a>  
+            </li>
+            <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
                 <a [routerLink]="['/contracts']">  
                     <span class='glyphicon glyphicon-briefcase'></span> Quản lý hợp đồng
                 </a>  
-            </li>                                                           
+            </li>                                                            -->
             <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_User'">  
                 <a [routerLink]="['/search']">  
                     <span class='glyphicon glyphicon-search'></span> Tìm kiếm người bệnh
                 </a>  
             </li>
-            <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role!='ROLE_Admin'">  
+            <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role!='ROLE_Admin' && currentUser.role!='ROLE_Employee'">  
                 <a [routerLink]="['/contracts']">  
-                    <span class='glyphicon glyphicon-briefcase'></span> Hợp đồng công việc
+                    <span class='glyphicon glyphicon-briefcase'></span> Hợp đồng yêu cầu
                 </a>  
-            </li>                    
+            </li>        
+            <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin' || currentUser.role=='ROLE_Employee'">  
+                <a [routerLink]="['/statistic']">  
+                    <span class='glyphicon glyphicon-statistic'></span> Thống kê
+                </a>  
+            </li>            
             <li [routerLinkActive]="['link-active']">  
                 <a [routerLink]="['/users/', currentUser._id, 'profile']">  
                     <span class='glyphicon glyphicon-user'></span> Thông tin cá nhân

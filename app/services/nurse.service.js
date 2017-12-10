@@ -6,6 +6,9 @@ const _ = require('lodash');
     jwt = require('jsonwebtoken')
     bcrypt = require('bcryptjs');
     Q = require('q');
+    gcm = require('node-gcm');
+    constants = require('../constants/constants.json');
+    gcmApiKey = constants.gcm_api_key; // GCM API KEY OF YOUR GOOGLE CONSOLE PROJECT
 
 var service = {};
  
@@ -19,6 +22,7 @@ service.createNurseProfile = createNurseProfile;
 service.updateUser = updateUser;
 service.updateProfile = updateProfile;
 service.updateNurseProfile = updateNurseProfile;
+service.updateNurseProfileSalary = updateNurseProfileSalary;
 service.deleteUser = _deleteUser;
 service.deleteProfile = _deleteProfile;
 service.deactiveUser = deactiveUser;
@@ -233,6 +237,7 @@ function createNurseProfile(userParam) {
             type: userParam.type,
             rate: 0,
             retribution: 0,
+            salaryBasic: userParam.salaryBasic,
             isDelete: false,
             status: "free",
             busy_dates: userParam.busyDates,
@@ -301,6 +306,7 @@ function updateNurseProfile(userParam) {
             type: userParam.type,
             rate: userParam.rate,
             retribution: userParam.retribution,
+            salaryBasic: userParam.salaryBasic,
             status: userParam.status,
             busy_dates: userParam.busyDates
         }
@@ -328,6 +334,26 @@ function updateProfile(userParam) {
             age: userParam.age,	
             sex: userParam.gender,
             address: userParam.address
+        }
+
+        profile.update(set, (err, doc) => {
+            if (err) deferred.reject(err.name + ': ' + err.message);
+            deferred.resolve(userParam.id);
+        });
+    });
+
+    return deferred.promise;
+}
+
+function updateNurseProfileSalary(userId, userSalary) {
+    let deferred = Q.defer();
+    // let profile = Profiles.find({owner: id});
+    NurseProfiles.findOne({owner: userId}, (err, profile) => {
+        if (err){
+            deferred.reject(err.name + ': ' + err.message);
+        }   
+        let set = {
+            salary: userSalary
         }
 
         profile.update(set, (err, doc) => {
@@ -507,7 +533,7 @@ function setDate(nurseParam) {
 
 function getAllNurses() {
     let deferred = Q.defer();
-    Users.find({isDelete: false, role: "ROLE_Nurse"}).select("-password -created_at -updated_at -isDelete -role -__v").populate([{
+    Users.find({isDelete: false, role: "ROLE_Nurse"}).sort('-created_at').select("-password -updated_at -isDelete -role -__v").populate([{
                 path: 'profile',
                 model: 'Profiles',
                 select: '-_id -owner -__v'
@@ -532,6 +558,32 @@ function getAllNurses() {
 }
 
 function searchByNurseProfile(searchCriteria) {
+
+    var device_tokens = []; //create array for storing device tokens
+    
+    var retry_times = 4; //the number of times to retry sending the message if it fails
+    var sender = new gcm.Sender(gcmApiKey); //create a new sender
+    var message = new gcm.Message(); //create a new message
+    message.addData('title', 'PushTitle');
+    message.addData('message', "Push message");
+    message.addData('sound', 'default');
+    message.collapseKey = 'Testing Push'; //grouping messages
+    message.delayWhileIdle = true; //delay sending while receiving device is offline
+    message.timeToLive = 3; //number of seconds to keep the message on 
+    //server if the device is offline
+    
+    //Take the registration id(lengthy string) that you logged 
+    //in your ionic v2 app and update device_tokens[0] with it for testing.
+    //Later save device tokens to db and 
+    //get back all tokens and push to multiple devices
+    device_tokens[0] = "fHrT7f8qgCU:APA91bGou1bjY3wxIfYl6B7df_K0B4WmI7duv8RqKpkDPoGgYVWWdpV5b5b21nRpHnUgQT9LPZfCYQLmWSyZIX_RhnGdUm7d8GTTT1CxOY0QwBrEXuN0qjRwfCPzcd71sgbl-wd8e50V";
+    sender.send(message, device_tokens[0], retry_times, function (result) {
+        console.log('push sent to: ' + device_tokens);
+        // res.status(200).send('Pushed notification ' + device_tokens);
+    }, function (err) {
+        // res.status(500).send('failed to push notification ');
+    });
+
     let deferred = Q.defer();
     let query = {
         isDelete: false,
@@ -546,7 +598,7 @@ function searchByNurseProfile(searchCriteria) {
     NurseProfiles.find(query).select("-_id -age -sex -address -certification -rate -retribution -isDelete -__v").populate({
                 path: 'owner',
                 model: 'Users',
-                select: '-password -created_at -updated_at -isDelete -role -__v',
+                select: '-password -updated_at -isDelete -role -__v',
                 populate: {
                     path: 'profile',
                     model: 'Profiles',

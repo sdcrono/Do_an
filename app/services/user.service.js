@@ -22,6 +22,7 @@ service.deleteProfile = _deleteProfile;
 // service.search = search;
 service.deactiveUser = deactiveUser;
 service.activeUser = activeUser;
+service.device = addDeviceRegistrationId;
  
 module.exports = service;
 
@@ -80,7 +81,7 @@ function getAll() {
 
 function getAllUser() {
     let deferred = Q.defer();
-    Users.find({isDelete: false, role: "ROLE_User"}).select("-password -created_at -updated_at -isDelete -role -__v").populate({
+    Users.find({isDelete: false, role: "ROLE_User"}).sort('-created_at').select("-password -updated_at -isDelete -role -__v").populate({
                 path: 'profile',
                 model: 'Profiles',
                 select: '-_id -owner -__v'
@@ -490,3 +491,29 @@ function activeUser(id) {
     });
     return deferred.promise;
 }
+
+function addDeviceRegistrationId(id, deviceId) {
+    
+        let deferred = Q.defer();
+    
+        Users.findOne({_id: id}, (err, user) => {
+            if (err){
+                deferred.reject(err.name + ': ' + err.message);
+            }
+            let newUser = JSON.parse(JSON.stringify(user));
+            let userRegistrationDevices = newUser.registrationId;
+            if (!userRegistrationDevices.some(id => id === deviceId))
+                userRegistrationDevices.push(deviceId)
+
+            let info = {
+                registrationId: userRegistrationDevices
+            };
+    
+            user.update(info, (err) => {
+                if (err) { deferred.reject(err.name + ': ' + err.message); }
+                deferred.resolve('SUCCESS');
+            });
+    
+        });
+        return deferred.promise;
+    }

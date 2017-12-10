@@ -1,49 +1,101 @@
 <div class="container">
   <div class="col-md-8"></div>
   <div class="col-md-4">
-    <a [routerLink]="['/contracts']" class="btn btn-default">
+    <a [routerLink]="['/contracts']" class="btn btn-default" *ngIf="currentUsingForManageWho === 'none'">
       <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
-    </a>      
-  </div> 
-  <h1>Chi tiết hợp đồng</h1>
+    </a>
+    <a [routerLink]="['/nurses/', idCurrentUsingForManageWho, 'contract']" class="btn btn-default" *ngIf="currentUsingForManageWho === 'nurses'">
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>
+    <a [routerLink]="['/users/', idCurrentUsingForManageWho, 'contract']" class="btn btn-default" *ngIf="currentUsingForManageWho === 'users'">
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>
+  </div>
+  <h1>Chi tiết yêu cầu</h1>
 
-          <div class="card" *ngIf="contract.detail">
-            <div class="card-block">
-              <h4 class="card-title">Thông tin công việc</h4>
-              <p class="card-text">Tên người bệnh: {{ contract.patientName }} - {{ contract.patientAge }} tuổi</p>  
-              <p class="card-text">Thời gian: {{ contract.created_at | date: 'dd/MM/yyyy' }} - {{ contract.end_at | date: 'dd/MM/yyyy' }}</p>  
-              <p class="card-text">Thanh toán cho 1 buổi làm việc: {{ contract.payment }}</p>
-              <p class="card-text">Nội dung: {{ contract.detail.jobDescription }}</p>
-              <p class="card-text">Thời điểm:</p>
-           
-              <table class="table">
-                <thead>
-                  <tr>
-                    <td>Thứ</td>
-                    <td>Giờ bắt đầu</td>
-                    <td>Giờ kết thúc</td>                    
-                  </tr>
-                  <tr *ngFor="let workingDate of contract.detail.dates">
-                    <td>{{ workingDate.date }}</td>
-                    <td>{{ workingDate.start_time | date:'shortTime' }}</td>
-                    <td>{{ workingDate.end_time | date:'shortTime' }}</td>
-                    <!-- <th>Hủy</th> -->
-                  </tr>
-                </thead>
+  <div class="card" *ngIf="contract.detail">
+    <div class="card-block">
+      <h4 class="card-title">Thông tin công việc</h4>
+      <p class="card-text">Tên người bệnh: {{ contract.patientName }} - {{ contract.patientAge }} tuổi</p>
+      <p class="card-text">Thời gian: {{ contract.start_at | date: 'dd/MM/yyyy' }} - {{ contract.end_at | date: 'dd/MM/yyyy' }}</p>
+      <p class="card-text">Thanh toán cho 1 giờ làm việc: {{ contract.corePayment*1000 | currency:'VND':true  }}/h</p>
+      <p class="card-text">Nội dung: {{ contract.detail.jobDescription }}</p>
+      <p class="card-text">Địa điểm: {{ contract.address }}</p>
+      <p class="card-text">Thời điểm:</p>
 
-              </table>              
-            </div>                
-            <div class="card-block">
-              <h4 class="card-title">Tên người đăng ký: {{ contract.userId.profile.name }}</h4>
-              <h6 class="card-subtitle mb-2 text-muted">email: {{ contract.userId.profile.email }} - sđt: {{ contract.userId.profile.phone }}</h6>
-              <p class="card-text">Địa chỉ: {{ contract.userId.profile.address }}</p>
-            </div>            
-            <div class="card-block">
-              <h4 class="card-title">Tên điều dưỡng: {{ contract.nurseId.profile.name }}</h4>
-              <h6 class="card-subtitle mb-2 text-muted">Giới tính: {{ contract.nurseId.profile.sex }} - email: {{ contract.nurseId.profile.email }} - sđt: {{ contract.nurseId.profile.phone }}</h6>
-              <p class="card-text">Làm việc tại: {{ contract.nurseId.nurseprofile.hospital }}</p>
-              <p class="card-text">Địa chỉ: {{ contract.nurseId.profile.address }}</p>
-            </div>
-          </div> 
+      <table class="table">
+        <thead>
+          <tr>
+            <td>Thứ</td>
+            <td>Giờ bắt đầu</td>
+            <td>Giờ kết thúc</td>
+          </tr>
+          <tr *ngFor="let workingDate of contract.detail.dates">
+            <td>{{ workingDate.date }}</td>
+            <td>{{ workingDate.start_time | date:'shortTime' }}</td>
+            <td>{{ workingDate.end_time | date:'shortTime' }}</td>
+            <!-- <th>Hủy</th> -->
+          </tr>
+        </thead>
+
+      </table>
+
+
+
+    </div>
+    <div class="card-block">
+      <h4 class="card-title">Tên người đăng ký: {{ contract.userId.profile.name }}</h4>
+      <h4 class="card-subtitle mb-2 text-muted">Tên tài khoản: {{ contract.userId.username }}</h4>
+      <h6 class="card-subtitle mb-2 text-muted">email: {{ contract.userId.profile.email }} - sđt: {{ contract.userId.profile.phone }}</h6>
+      <p class="card-text">Địa chỉ: {{ contract.userId.profile.address }}</p>
+    </div>
+    <div class="card-block">
+      <h4 class="card-title">Tên điều dưỡng: {{ contract.nurseId.profile.name }}</h4>
+      <h4 class="card-subtitle mb-2 text-muted">Tên tài khoản: {{ contract.nurseId.username }}</h4>
+      <h6 class="card-subtitle mb-2 text-muted">Giới tính: {{ contract.nurseId.profile.sex }} - email: {{ contract.nurseId.profile.email }} - sđt: {{ contract.nurseId.profile.phone
+        }}
+      </h6>
+      <p class="card-text">Làm việc tại: {{ contract.nurseId.nurseprofile.hospital }}</p>
+      <p class="card-text">Địa chỉ: {{ contract.nurseId.profile.address }}</p>
+    </div>
+
+    <table class="table" *ngIf="currentUser.role=='ROLE_Admin'">
+      <thead>
+        <tr>
+          <td>Ngày làm</td>
+          <td>Thứ</td>
+          <td>Tiền công(VNĐ)</td>
+          <td>Đánh dấu hoàn thành</td>
+          <td>Đánh dấu vắng</td>
+        </tr>
+        <tr *ngFor="let workingDate of contract.workingDates">
+          <td>{{ workingDate.date | date:'dd/MM/yyyy' }}</td>
+          <td>{{ workingDate.date | date:'EEE' }}</td>
+          <td>{{ workingDate.fee * 1000 | currency:'VND':true }}</td>
+          <td>
+            <button class="btn btn-success" [disabled]="loading || contract.status==='finish'" type="button" (click)="done(workingDate)" *ngIf="workingDate.process !== 1 && (contract.status==='approve' || contract.status==='finish')">
+              <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+            </button>
+            <button class="btn" [disabled]="loading" type="button" *ngIf="workingDate.process === 1 || (contract.status!=='approve' && contract.status!=='finish')">
+              <span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span>
+            </button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          </td>
+          <td>
+            <button class="btn btn-danger" [disabled]="loading || contract.status==='finish'" type="button" (click)="off(workingDate)" *ngIf="workingDate.process !== -1 && (contract.status==='approve' || contract.status==='finish')">
+              <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+            </button>
+            <button class="btn" [disabled]="loading" type="button"*ngIf="workingDate.process === -1 || (contract.status!=='approve' && contract.status!=='finish')">
+              <span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span>
+            </button>
+            <img *ngIf="loading" src="data:image/gif;base64,R0lGODlhEAAQAPIAAP///wAAAMLCwkJCQgAAAGJiYoKCgpKSkiH/C05FVFNDQVBFMi4wAwEAAAAh/hpDcmVhdGVkIHdpdGggYWpheGxvYWQuaW5mbwAh+QQJCgAAACwAAAAAEAAQAAADMwi63P4wyklrE2MIOggZnAdOmGYJRbExwroUmcG2LmDEwnHQLVsYOd2mBzkYDAdKa+dIAAAh+QQJCgAAACwAAAAAEAAQAAADNAi63P5OjCEgG4QMu7DmikRxQlFUYDEZIGBMRVsaqHwctXXf7WEYB4Ag1xjihkMZsiUkKhIAIfkECQoAAAAsAAAAABAAEAAAAzYIujIjK8pByJDMlFYvBoVjHA70GU7xSUJhmKtwHPAKzLO9HMaoKwJZ7Rf8AYPDDzKpZBqfvwQAIfkECQoAAAAsAAAAABAAEAAAAzMIumIlK8oyhpHsnFZfhYumCYUhDAQxRIdhHBGqRoKw0R8DYlJd8z0fMDgsGo/IpHI5TAAAIfkECQoAAAAsAAAAABAAEAAAAzIIunInK0rnZBTwGPNMgQwmdsNgXGJUlIWEuR5oWUIpz8pAEAMe6TwfwyYsGo/IpFKSAAAh+QQJCgAAACwAAAAAEAAQAAADMwi6IMKQORfjdOe82p4wGccc4CEuQradylesojEMBgsUc2G7sDX3lQGBMLAJibufbSlKAAAh+QQJCgAAACwAAAAAEAAQAAADMgi63P7wCRHZnFVdmgHu2nFwlWCI3WGc3TSWhUFGxTAUkGCbtgENBMJAEJsxgMLWzpEAACH5BAkKAAAALAAAAAAQABAAAAMyCLrc/jDKSatlQtScKdceCAjDII7HcQ4EMTCpyrCuUBjCYRgHVtqlAiB1YhiCnlsRkAAAOwAAAAAAAAAAAA==" />
+          </td>
+          <!-- <th>Hủy</th> -->
+        </tr>
+      </thead>
+
+    </table>
+
+  </div>
 
 </div>

@@ -12,6 +12,7 @@ var contractSchema = new Schema({
         ref: 'Users'	
     },
     created_at: Date,
+    start_at: Date,
     end_at: Date,
     patientName: String,
     patientAge: String,
@@ -20,15 +21,22 @@ var contractSchema = new Schema({
         latitude: Number,
         longitude: Number
     },
-    payment: String,    
+    // payment: String,
+    district: String,
+    workingDates: [{
+        date: Date,
+        process: Number,
+        fee: Number
+    }],    
+    corePayment: Number, 
+    totalPayment: Number, 
+    nurseNetReceive: Number,
+    companyNetReceive: Number,
     status: {
         type: String,
         enum: ['check', 'approve', 'reject', 'finish']
     },
-    payment: {
-        type: String,
-        enum: ['50.000 VND', '100.000 VND', '200.000 VND', '300.000 VND', '400.000 VND']
-    },    
+    payment: String,
     detail: {
         type: Schema.Types.ObjectId,
         ref: 'ContractDetails'	

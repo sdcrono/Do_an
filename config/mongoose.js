@@ -33,11 +33,13 @@ module.exports = function(){
 
 	require('../app/models/contractDetail.model');
 	require('../app/models/nurseProfile.model');
+    require('../app/models/employee.model');
 	require('../app/models/permission.model');
 	require('../app/models/profile.model');
 	require('../app/models/contract.model');
     require('../app/models/role.model');
     require('../app/models/service.model');
     require('../app/models/user.model');
+    require('../app/models/device.model');
 	return db;
 };

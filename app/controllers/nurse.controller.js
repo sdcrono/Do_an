@@ -23,13 +23,17 @@ var getErrorMessage = function(err){
 	return message;
 };
 
-exports.read =(req, res) => res.send(req.user)
-
+exports.read =(req, res) => {
+    // res.send(req.user)
+    res.send(x)    
+}
+var x
 exports.getById = (req, res, next, id) => 
         nurseService.getById(id)
         .then(user => {
             // res.send(users);
             req.user = user;
+            x = user;
             next();
         })
         .catch(err => {

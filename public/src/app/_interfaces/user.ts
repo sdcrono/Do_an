@@ -5,4 +5,5 @@ export interface Users {
     username: string;
     profile: Profile;
     location: Location;
+    created_at: Date;
 }

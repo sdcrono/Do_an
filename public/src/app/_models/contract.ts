@@ -6,12 +6,17 @@ export class ContractModel implements Contract{
         public userId: string,
         public nurseId: string, 
         public createdAt: Date, 
+        public startAt: Date, 
         public endAt: Date,
         public patientName: string,
         public patientAge: string,
         public address: string,
         public location: Location,
-        public payment: string,        
+        public district: string,
+        public payment: string,     
+        public corePayment: number,
+        public totalPayment: number, 
+        public paymentEachDays: number[],   
         public detail: ContractDetailModel
     ) { }
     

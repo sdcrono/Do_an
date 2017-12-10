@@ -14,7 +14,7 @@ export class AuthGuardAdmin implements CanActivate {
         if (localStorage.getItem('currentUser')) {
             
             this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            if (this.currentUser.role === "ROLE_Admin")
+            if (this.currentUser.role === "ROLE_Admin" || this.currentUser.role === "ROLE_Employee")
                 return true;
             else {
                 this.location.back();

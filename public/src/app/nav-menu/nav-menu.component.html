@@ -19,7 +19,7 @@
                    </li>
                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
                        <a [routerLink]="['/nurses']">  
-                           <span class='glyphicon glyphicon-user'></span> Quản lý người dùng
+                           <span class='glyphicon glyphicon-user'></span> Quản lý Khách hàng
                        </a>  
                    </li>
                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_Admin'">  
@@ -29,7 +29,7 @@
                    </li>                                              
                    <li [routerLinkActive]="['link-active']" *ngIf="currentUser.role=='ROLE_User'">  
                        <a [routerLink]="['/search']">  
-                           <span class='glyphicon glyphicon-user'></span> Tìm kiếm người bệnh
+                           <span class='glyphicon glyphicon-user'></span> Tìm kiếm người chăm sóc
                        </a>  
                    </li>  
                </ul>  

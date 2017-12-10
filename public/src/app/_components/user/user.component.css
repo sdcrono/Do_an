@@ -1,0 +1,5 @@
+.fix-right {
+    position: fixed;
+    right: 0;
+    bottom: 1.5rem;
+}

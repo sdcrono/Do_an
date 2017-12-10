@@ -39,7 +39,9 @@ export class NursesService {
     }
  
     getById(_id: string) {
-        return this.http.get('/nurses/' + _id).map((response: Response) => response.json() as Nurse);
+        return this.http.get('/nurses/' + _id).map((response: Response) => {
+            return response.json() as Nurse
+        });
     }
  
     create(nurse: any) {

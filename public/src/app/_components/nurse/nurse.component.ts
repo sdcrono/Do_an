@@ -10,7 +10,9 @@ import { AlertService, NursesService } from '../../_services/index';
 export class NurseComponent implements OnInit {
 
   nurses: any;
-
+  nursesFilter: any;
+  month: number = new Date().getMonth() + 1;
+  year: number = new Date().getFullYear();
   constructor(
     private alertService: AlertService,
     private nursesService: NursesService
@@ -23,9 +25,27 @@ export class NurseComponent implements OnInit {
   getNurseList() {
     this.nursesService.getAll().subscribe(nurses => {
       this.nurses = nurses;
-      nurses.forEach(nurse => {
-        console.log("Nurse ", nurse);
+      this.nursesFilter = this.nurses.map(nurse => {
+        let salary = nurse.nurseprofile.salaryBasic;
+        let contractSalary = nurse.nurseprofile.salary && nurse.nurseprofile.salary.find(salary => {
+          if (salary.month === +this.month && salary.year === this.year) return salary;
+        })
+        salary = contractSalary ? salary + (((+contractSalary.payment*1000 )* 60) / 100) : salary;
+        salary = !isNaN(salary) ? salary : 0;
+        let today = new Date();
+        let createDay = new Date(nurse.created_at);
+        if ((today.getMonth()+1 < +this.month && today.getFullYear() <= this.year) || (createDay.getMonth()+1 > +this.month && createDay.getFullYear() >= this.year)) {
+          salary = 0;
+        }
+        if ((today.getFullYear() < this.year) || (createDay.getFullYear() > this.year)) {
+          salary = 0;
+        }
+        let nurseFilter = Object.assign({}, nurse, {net: salary});
+        return nurseFilter;
       });
+      // nurses.forEach(nurse => {
+      //   console.log("Nurse ", nurse);
+      // });
     });
   }
 
@@ -40,7 +60,7 @@ export class NurseComponent implements OnInit {
         this.getNurseList();
     }, err => {
       console.log(err);
-      this.alertService.error(err);
+      this.alertService.error(err, false);
     });
   }
 
@@ -53,12 +73,41 @@ export class NurseComponent implements OnInit {
     this.nursesService.setStatus(nurse).subscribe(result => {
       let id = result.text();
       console.log(id);
-      this.alertService.success('đổi thành công', false);
+      this.alertService.success('đổi trạng thái thành công', false);
       this.getNurseList();
     }, err => {
-      this.alertService.error(err);
+      this.alertService.error(err, false);
       console.log(err);
     });       
   }   
+
+  changeFilter() {
+    let nursesFilter = this.nurses.map(nurse => {
+      let salary = nurse.nurseprofile.salaryBasic;
+      let contractSalary = nurse.nurseprofile.salary && nurse.nurseprofile.salary.find(salary => {
+        if (salary.month === +this.month && salary.year === this.year)
+         return salary;
+      })
+      salary = contractSalary ? salary + (((+contractSalary.payment*1000 )* 60) / 100) : salary;
+      salary = !isNaN(salary) ? salary : 0;
+      let today = new Date();
+      let createDay = new Date(nurse.created_at);
+      if ((today.getMonth()+1 < +this.month && today.getFullYear() <= this.year) || (createDay.getMonth()+1 > +this.month && createDay.getFullYear() >= this.year)) {
+        salary = 0;
+      }
+      if ((today.getFullYear() < this.year) || (createDay.getFullYear() > this.year)) {
+        salary = 0;
+      }
+      let nurseFilter = Object.assign({}, nurse, {net: salary});
+      return nurseFilter;
+    });
+
+    this.nursesFilter = nursesFilter;
+    console.log(this.nursesFilter);
+  }
+
+  refresh(id: any) {
+    this.getNurseList();
+  }
 
 }

@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-md-12">
       <!-- <form (ngSubmit)="saveuser()" #userForm="ngForm" ngNativeValidate> -->
-        <form [formGroup]="reactiveForm" (ngSubmit)="edituser(reactiveForm.value)">
+        <form [formGroup]="reactiveForm" (ngSubmit)="editUser(reactiveForm.value)">
           <div class="col-md-6"> 
             <!-- username  -->
             <div class="form-group" [ngClass]="{'has-error':!reactiveForm.controls['username'].valid && reactiveForm.controls['username'].touched}">

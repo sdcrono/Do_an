@@ -26,6 +26,7 @@ export class NurseEditComponent implements OnInit {
   public latitude: number;
   public longitude: number;
   public address: string;
+  public status: string;
   public zoom: number;
   public searchControl: FormControl;
   reactiveForm: FormGroup;
@@ -65,6 +66,7 @@ export class NurseEditComponent implements OnInit {
       'type': [null, Validators.required],
       'rate': [null, Validators.required],
       'retribution': [null, Validators.required],      
+      'salary': [null, Validators.required],    
     })
   }
 
@@ -97,6 +99,7 @@ export class NurseEditComponent implements OnInit {
       this.nurse = nurse;
       console.log("busydate:" + nurse.nurseprofile.busy_dates);
       this.busyDates = nurse.nurseprofile.busy_dates;
+      this.status = nurse.nurseprofile.status;
       console.log("Nurse ", nurse);
     });
   }
@@ -119,6 +122,8 @@ export class NurseEditComponent implements OnInit {
       certification: value.certification,
       career: value.career,
       hospital: value.hospital,
+      status: this.status,
+      salaryBasic: value.salary,
       type: value.type,
       busyDates: this.busyDates,
       rate: value.rate,
@@ -130,7 +135,7 @@ export class NurseEditComponent implements OnInit {
       this.alertService.success('Sửa thành công', true);
       this.router.navigate(['/nurses/', id]);
     }, err => {
-      this.alertService.error(err);
+      this.alertService.error(err, false);
       console.log(err);
     });
     console.log("Nurse " + this.nurse);

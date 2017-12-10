@@ -3,6 +3,7 @@ const config = require('./config/config'),
     // mongoose = require('mongoose');
     express = require('./config/express'),
     passport = require('./config/passport');
+    io = require('socket.io');
 
 // const config = require('./config');
 
@@ -17,7 +18,11 @@ const db = mongoose(),
 
 // app.listen(port, () => console.log('CORS-enabled web server listening on port 3000'));
 
-app.listen(config.port, () => console.log('CORS-enabled web server listening on port 3000'));
+var listen = app.listen(config.port, () => console.log('CORS-enabled web server listening on port 3000'));
+
+var socket = io.listen(listen);
+
+require('./app/routes/routes')(app,socket);
 
 // console.log(' server running at ' + config.getDbConnectionString() + ':' + port);
 

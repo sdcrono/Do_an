@@ -47,14 +47,17 @@ module.exports = () => {
     // require('../app/controllers/apiController'),
     require('../app/routes/api.route')(app);
     require('../app/routes/nurse.route')(app);
+    require('../app/routes/employee.route')(app);
     require('../app/routes/contract.route')(app);
     require('../app/routes/rolePermissionRoute')(app);
     require('../app/routes/authentication.route')(app);
 
-    app.get('*', (req, res) => 
-        res.send("Appwork!")
-        // res.sendFile(path.join(__dirname, '../public/src/index.html'))
-    );
+    //to resend every route else with method post :| /////////
+
+    // app.get('*', (req, res) => 
+    //     res.send("Appwork!")
+    //     // res.sendFile(path.join(__dirname, '../public/src/index.html'))
+    // );
 
     // setupController(app);
     // // apiController(app);

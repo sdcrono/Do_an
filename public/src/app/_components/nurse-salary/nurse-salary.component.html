@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="col-md-8"></div>
+  <div class="col-md-4">
+    <a [routerLink]="['/nurses/']" class="btn btn-default" *ngIf="currentUsingForManageWho === 'nurses'">
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>
+    <a [routerLink]="['/users/']" class="btn btn-default" *ngIf="currentUsingForManageWho === 'users'">
+      <span class="glyphicon glyphicon-circle-arrow-left" aria-hidden="true"></span>
+    </a>
+  </div>
+  <h1>Danh sách các hợp đồng</h1>
+  <!-- <a [routerLink]="['/contracts/add']" class="btn btn-default">
+    <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+  </a> -->
+
+  <div class="col-md-3">
+  <select class="form-control col-xs-4" type="text" [(ngModel)]="statusSelect " name="statusSelect" (ngModelChange)="onChangeStatus($event)">
+    <!-- <option [value]="LPN">LPN</option>
+    <option [value]="RN">RN</option> -->
+    <!-- <option *ngFor="let item of selectCareerOption" [ngValue]="item" [disabled]="item.value==0"> -->
+    <option *ngFor="let item of statusOption" [ngValue]="item" [disabled]="item.value==0">  
+      {{item.label}}
+    </option>
+  </select>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th >Ngày đặt yêu cầu</th>
+        <th *ngIf="currentUser.role!='ROLE_User'">Tên người liên lạc</th>
+        <th *ngIf="currentUser.role!='ROLE_Nurse'">Tên điều dưỡng</th>
+        <th>Tên bệnh nhân</th>
+        <th *ngIf="currentUsingForManageWho === 'none'">Chi tiết</th>
+        <th *ngIf="currentUsingForManageWho === 'nurses'">Chi tiết</th>
+        <th *ngIf="currentUsingForManageWho === 'users'">Chi tiết</th>
+        <th *ngIf="statusSelect.value!='reject' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin'">Đánh dấu bận</th>
+        <th *ngIf="statusSelect.value!='approve' && statusSelect.value!='finish'  && statusSelect.value!='all' && currentUser.role=='ROLE_Admin'">Xác nhận</th>
+        <th *ngIf="statusSelect.value!='reject' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin'">Loại bỏ</th>
+        <!-- <th>Hủy</th> -->
+        <!-- && statusSelect.value!='' -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let contract of contracts">
+        <td>{{ contract.created_at | date: "dd//MM/yyyy" }}</td>
+        <td *ngIf="currentUser.role!='ROLE_User'"><a [routerLink]="['/users/', contract.userId._id]">{{ contract.userId.profile.name }}</a></td>
+        <td *ngIf="currentUser.role!='ROLE_Nurse'"><a [routerLink]="['/nurses/', contract.nurseId._id]">{{ contract.nurseId.profile.name }}</a></td>
+        <td>{{ contract.patientName }}</td>
+        <td *ngIf="currentUsingForManageWho === 'none'"><a [routerLink]="['/contracts/', contract._id]">Xem chi tiết</a></td>
+        <td *ngIf="currentUsingForManageWho === 'nurses'"><a [routerLink]="['/nurses/', id, 'contract', contract._id]">Xem chi tiết</a></td>
+        <td *ngIf="currentUsingForManageWho === 'users'"><a [routerLink]="['/users/', id, 'contract', contract._id]">Xem chi tiết</a></td>
+        <td *ngIf="statusSelect.value!='reject' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin' && contract.nurseId.nurseprofile.status=='free'"><button class="btn btn-danger" type="button" (click)="busy(contract.nurseId._id)">Đánh dấu Bận</button></td>
+        <td *ngIf="statusSelect.value!='reject' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin' && contract.nurseId.nurseprofile.status=='busy'">Đã bận</td>                
+        <td *ngIf="statusSelect.value!='approve' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin' && contract.nurseId.nurseprofile.status!='busy'"><button class="btn btn-success" type="button" (click)="approve(contract._id)">Xác nhận</button></td>
+        <td *ngIf="statusSelect.value!='approve' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin' && contract.nurseId.nurseprofile.status=='busy'">Đã bận</td>                
+        <td *ngIf="statusSelect.value!='reject' && statusSelect.value!='finish' && statusSelect.value!='all' && currentUser.role=='ROLE_Admin'"><button class="btn btn-danger" type="button" (click)="decline(contract._id)">Loại bỏ</button></td> 
+        <!-- <td><button class="btn btn-success" type="button" (click)="approve(contract._id)" *ngIf="contract.status != 'approve'  && contract.status != 'reject'">Xác nhận</button></td>
+        <td><button class="btn btn-danger" type="button" (click)="decline(contract._id)" *ngIf="contract.status != 'approve'  && contract.status != 'reject'">Loại bỏ</button></td> -->
+      </tr>
+    </tbody>
+  </table>
+
+
+</div>

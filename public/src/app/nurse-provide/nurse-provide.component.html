@@ -1,14 +1,5 @@
-<!-- <div class="form-group has-warning has-feedback">
-  <label class="control-label" for="inputWarning">Email address input field with warning</label>
-  <div class="input-group">
-    <span class="input-group-addon">@</span>
-    <input type="text" class="form-control" id="inputWarning" aria-describedby="inputGroupWarningStatus">
-  </div>
-  <span class="glyphicon glyphicon-warning-sign form-control-feedback" aria-hidden="true"></span>
-  <span id="inputGroupWarningStatus" class="sr-only">(warning)</span>
-</div> -->
-<div class="row px-2">
-    <!-- <h1>{{ahuhu}} {{radius}}</h1> -->
+
+<div class="row filter-menu">
   <div class="col-md-1">
     <div class="input-group">
       <span class="input-group-btn">
@@ -35,9 +26,6 @@
   </div>    
   <div class="col-md-2">
       <select type="text" class="form-control col-xs-3" [(ngModel)]="searchCriteriaCareer" name="searchCriteriaCareer" (ngModelChange)="onChangeCareer($event)">
-        <!-- <option [value]="LPN">LPN</option>
-        <option [value]="RN">RN</option> -->
-        <!-- <option *ngFor="let item of selectCareerOption" [ngValue]="item" [disabled]="item.value==0"> -->
         <option *ngFor="let item of selectCareerOption" [ngValue]="item">  
           {{item.label}}
         </option>
@@ -45,8 +33,6 @@
   </div>
     <div class="col-md-2">
       <select type="text" class="form-control col-xs-2" [(ngModel)]="searchCriteriaType" name="searchCriteriaType" (ngModelChange)="onChangeType($event)">
-        <!-- <option [value]="Internal">Internal</option>
-        <option [value]="External">External</option> -->
         <option *ngFor="let item of selectTypeOption" [ngValue]="item">
           {{item.label}}
         </option>
@@ -54,9 +40,6 @@
     </div>
   <div class="col-md-2">    
       <select type="text" class="form-control col-xs-4" [(ngModel)]="searchCriteriaHospital" name="searchCriteriaHospital" (ngModelChange)="onChangeHospital($event)">
-        <!-- <option [value]="BỆNH VIỆN AN BÌNH">BỆNH VIỆN AN BÌNH</option>
-        <option [value]="BỆNH VIỆN QUÂN DÂN MIỀN ĐÔNG">BỆNH VIỆN QUÂN DÂN MIỀN ĐÔNG</option>
-        <option [value]="BỆNH VIỆN BƯU ĐIỆN 2">BỆNH VIỆN BƯU ĐIỆN 2</option> -->
         <option *ngFor="let item of selectHospitalOption" [ngValue]="item">
           {{item.label}}
         </option>
@@ -64,9 +47,6 @@
   </div>
     <div class="col-md-2">
       <select type="text" class="form-control col-xs-3" [(ngModel)]="searchMode" name="searchMode" (ngModelChange)="onChangeMode($event)">
-        <!-- <option [value]="BỆNH VIỆN AN BÌNH">BỆNH VIỆN AN BÌNH</option>
-        <option [value]="BỆNH VIỆN QUÂN DÂN MIỀN ĐÔNG">BỆNH VIỆN QUÂN DÂN MIỀN ĐÔNG</option>
-        <option [value]="BỆNH VIỆN BƯU ĐIỆN 2">BỆNH VIỆN BƯU ĐIỆN 2</option> -->
         <option *ngFor="let item of selectMode" [ngValue]="item">
           {{item.label}}
         </option>
@@ -77,9 +57,6 @@
   <div class="col-md-2">
     <div class="centered">
       <div class="control is-horizontal">
-        <!-- <div class="control-label">
-          <label>Thứ     Bắt đầu      Kết thúc</label> 
-        </div> -->
         <span class="select">
           <!-- <select [(ngModel)]="options.theme">
             <option>default</option>
@@ -90,6 +67,9 @@
             <option>red</option>
             <option>gray</option>
           </select> -->
+          <button type="button" class="btn btn-default btn-number" (click)="toggle()">
+              {{ btnToggleTitle }}
+          </button>
           <table>
             <tr>
               <th>Thứ</th>
@@ -174,6 +154,21 @@
     <textarea class="form-control" type="text" [(ngModel)]="patientDescription" name="patientDescription"></textarea><br/>                    
   </div>  
   <div id="wrapper" class="col-md-10">
+      <div id="over_map_left" [hidden]="!dull">
+          <div class="panel-heading">
+            <h1 class="panel-title">Danh sách điều dưỡng:</h1>
+          </div>
+          <div class="list-nurse" *ngFor="let marker of markers | slice:0:10; let i=index" (click)="clickedMarker(marker,i)">
+            <div class="panel-body">
+              <div class="card" >
+                <div class="card-block">
+                  <p class="card-text">{{i+1}}. {{marker.name}} - khoảng cách: {{marker.distance}} mét</p>
+                  <p class="card-text">Giới tính: {{marker.sex}} - sđt: {{marker.phone}}</p>   
+                </div>
+              </div>    
+            </div>
+          </div>         
+        </div>
     <agm-map [latitude]="latitude" [longitude]="longitude" [fitBounds]="latlngBounds" [styles]="styles" [scrollwheel]="true" [zoom]="zoom" (mapClick)="mapClicked($event)">
       <agm-marker [latitude]="latitude" [longitude]="longitude"></agm-marker>
       <agm-marker 
@@ -194,7 +189,7 @@
         [(radius)]="radius"
         [circleDraggable]="false"
         [editable]="false"
-        [visible]="true"
+        [visible]="isCircle"
         (radiusChange)="radiusChanged($event)"
         #circle>
     </agm-circle> 
@@ -203,7 +198,7 @@
       [paths]="paths"
       [editable]="false" 
       [draggable]="false"
-      [visible]="false"
+      [visible]="!isCircle"
       [strokeOpacity]= 0.0
       (polyClick)="click($event)" 
       (polyDblClick)="delete($event)"></agm-polygon>              
@@ -211,7 +206,7 @@
 
     <div id="over_map_right" *ngIf="markerName">
       <div class="panel-heading">
-        <h1 class="panel-title">Thông tin điều dưỡng:{{startDate | date: 'dd/MM/yyyy'}}</h1>
+        <h1 class="panel-title">Thông tin điều dưỡng:</h1>
       </div>
       <svg class="defs-only right">
         <filter id="monochrome" color-interpolation-filters="sRGB"
@@ -225,27 +220,10 @@
       </svg>
       <a class="profile-link" href="#" title="More about Amelia Bellamy-Royds" *ngIf="markerSex == 'Nữ'">
         <img class="profile-pic" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/91525/AmeliaBR-bw.jpg"/></a>
-      <!-- <a class="profile-link" href="#" title="More about AmeliaBR">
-        <img class="profile-pic" src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/91525/AmeliaBR2-bw.jpg"/></a>       -->
        <a class="profile-link" href="#" title="More about AmeliaBR" *ngIf="markerSex == 'Nam'">
         <img class="profile-pic" src="https://pbs.twimg.com/profile_images/889736688624312321/xVAFH9ZH_400x400.jpg"/></a>               
       <div class="panel-body">
         <form (submit)="chooseMarker()">
-          <!-- <label class="label label-info">>Tên</label>
-           <input type="text" [(ngModel)]="markerName" name="markderName"/><br/> 
-           {{markerName}}<br/>
-          <label class="label label-info">Email</label>
-           {{markerEmail}}<br/> 
-          <label class="label label-info">SĐT</label>
-           {{markerPhone}}<br/> 
-          <label class="label label-info">Giới tính</label>
-           {{markerSex}}<br/>
-          <label class="label label-info">Tuổi</label>
-           {{markerAge}}<br/>
-          <label class="label label-info">Địa chỉ</label>
-           {{markerAddress}}<br/> 
-          <label class="label label-info">Làm việc tại</label>
-           {{markerHospital}}<br/> -->
           <div class="card" >
             <div class="card-block">
 
@@ -254,7 +232,7 @@
               <h6 class="card-subtitle mb-2 text-muted">Giới tính: {{markerSex}} - sđt: {{markerPhone}}</h6>
               <p class="card-text" *ngIf="markerHospital">Làm việc tại: {{markerHospital}}</p>
               <p class="card-text">Địa chỉ: {{markerAddress}}</p>
-              <p class="card-text">Chi trả cho 1 buổi làm việc: {{money}}</p>
+              <p class="card-text">Chi trả cho 1 giờ làm việc: {{coreMoney*1000 | currency:'VND':true }}</p>
               <!-- <a href="#" class="card-link">Card link</a>
               <a href="#" class="card-link">Another link</a> -->
               <div class="right">    
@@ -264,37 +242,10 @@
                 </button>
               </div>               
             </div>
-          </div>                                                       
-           <!-- <label>Lat</label>
-          <input type="text" [(ngModel)]="markerLat" name="markderLat"/><br/>
-          <label>Lng</label>
-          <input type="text" [(ngModel)]="markerLng" name="markderLng"/><br/> -->
-          <!-- <label>Draggable</label>
-          <select type="text" [(ngModel)]="markerDraggable" name="markderDragglable">
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select><br/>  -->
+          </div>                    
         </form>    
       </div>          
     </div>
   </div>
 </div>
-
-<div class="row">
-  <!-- <div class="column is-4 is-offset-4"> -->
-  <!-- <div class="col-md-5">
-
-  </div> -->
-  <!-- <div class="column is-4 is-offset-4"> -->
-  <!-- <div class="col-md-5">
-    <div class="is-fullwidth has-text-centered">
-      <ng-daterangepicker [(ngModel)]="value" name="value" [options]="options"></ng-daterangepicker>
-          <input [value]="momentVariable | date" [(ngModel)]="momentVariable" name="momentVariable" dateTimePicker [pickerType]="'time'" readonly (onChange)="setMoment($event)">   
-        <dp-time-select #dayPicker theme="dp-material" [(ngModel)]="selectedDate" [config]="config"></dp-time-select>
-        <button type="button" class="btn btn-success btn-number"(click)="open()"></button>
-        <button type="button" class="btn btn-success btn-number" (click)="close()"></button> 
-    </div>
-  </div> -->
-</div>
-
 
